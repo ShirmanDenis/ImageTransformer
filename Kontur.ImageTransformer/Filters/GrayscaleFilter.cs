@@ -23,7 +23,7 @@ namespace Kontur.ImageTransformer.Filters
             var bytesPerPixel = Image.GetPixelFormatSize(img.PixelFormat) / 8;
 
             Grayscale(bitmapData.Scan0, img.Height, img.Width, bytesPerPixel, bitmapData.Stride);
-
+            
             return img;
         }
 

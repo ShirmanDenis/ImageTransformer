@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Kontur.ImageTransformer.Filters
 {
-    class ThresholdFilter : IImageFilter
+    public class ThresholdFilter : IImageFilter
     {
         [DllImport("ImgProc.dll")]
         private static extern void Threshold(IntPtr imgData, int value, int height, int width, int bytesPerPixel, int stride);

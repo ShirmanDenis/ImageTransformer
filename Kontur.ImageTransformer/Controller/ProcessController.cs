@@ -17,13 +17,17 @@ using System.Web.Http.Results;
 using Kontur.ImageTransformer.Filters;
 using Kontur.ImageTransformer.FiltersFactory;
 using Kontur.ImageTransformer.ImageService;
-using Ninject;
 
 namespace Kontur.ImageTransformer.Controller
 {
     [RoutePrefix("process")]
     public class ProcessController : ApiController
     {
+        private const string StrThreshold = "threshold";
+        private const string StrSepia = "sepia";
+        private const string StrGrayscale = "grayscale";
+        private const string ContentType = "image/png";
+
         private readonly IImageProcessService _service;
         private readonly IFiltersFactory _filtersFactory;
 
@@ -34,9 +38,9 @@ namespace Kontur.ImageTransformer.Controller
         }
 
         [Route("threshold({value})/{x},{y},{w},{h}")]
-        public async Task<IHttpActionResult> PostThreshold(int value, int x, int y, int w, int h)
+        public async Task<HttpResponseMessage> PostThreshold(int value, int x, int y, int w, int h)
         {
-            var filter = _filtersFactory.GetFilter("threshold");
+            var filter = _filtersFactory.GetFilter(StrThreshold);
             var filterParam = filter.AddParam();
             filterParam.Value = value;
 
@@ -44,41 +48,39 @@ namespace Kontur.ImageTransformer.Controller
         }
 
         [Route("sepia/{x},{y},{w},{h}")]
-        public async Task<IHttpActionResult> PostSepia(int x, int y, int w, int h)
+        public async Task<HttpResponseMessage> PostSepia(int x, int y, int w, int h)
         {
-            var filter = _filtersFactory.GetFilter("sepia");
+            var filter = _filtersFactory.GetFilter(StrSepia);
             
             return await ProcessAndSendAsync(filter, x, y, w, h);
         }
 
         [Route("grayscale/{x},{y},{w},{h}")]
-        public async Task<IHttpActionResult> PostGrayscale(int x, int y, int w, int h)
+        public async Task<HttpResponseMessage> PostGrayscale(int x, int y, int w, int h)
         {
-            var filter = _filtersFactory.GetFilter("grayscale");
+            var filter = _filtersFactory.GetFilter(StrGrayscale);
 
             return await ProcessAndSendAsync(filter, x, y, w, h);
         }
 
-        private async Task<IHttpActionResult> ProcessAndSendAsync(IImageFilter filter, int x, int y, int w, int h)
+        private async Task<HttpResponseMessage> ProcessAndSendAsync(IImageFilter filter, int x, int y, int w, int h)
         {
-            using (var imageStream = await ControllerContext.Request.Content.ReadAsStreamAsync())
+            using (var requestStream = await Request.Content.ReadAsStreamAsync())
+            using (var imgFromRequest = new Bitmap(requestStream))
             {
-                Bitmap responseImage;
-                using (var imageFromRequest = new Bitmap(imageStream))
-                {
-                    var cropArea = _service.ToCropArea(imageFromRequest, x, y, w, h);
-                    responseImage = _service.Process(imageFromRequest, filter, cropArea);
-                }
-                using (var responseStream = new MemoryStream())
-                {
-                    responseImage.Save(responseStream, ImageFormat.Png);
-                    using (var response = ControllerContext.Request.CreateResponse(HttpStatusCode.OK,
-                        new StreamContent(responseStream)))
-                    {                       
-                        response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
-                        return ResponseMessage(response);
-                    }
-                }
+                var cropArea = _service.ToCropArea(imgFromRequest, x, y, w, h);
+                var response = Request.CreateResponse();
+                var responseImgStream = new MemoryStream();
+
+                using (var processedImg = _service.Process(imgFromRequest, filter, cropArea))
+                    processedImg.Save(responseImgStream, ImageFormat.Png);
+
+                responseImgStream.Position = 0;
+                response.Content = new StreamContent(responseImgStream);
+                response.Content.Headers.ContentType = new MediaTypeHeaderValue(ContentType);
+                response.Content.Headers.ContentLength = responseImgStream.Length;
+
+                return response;
             }
         }
 
@@ -89,6 +91,6 @@ namespace Kontur.ImageTransformer.Controller
                 return Task.Factory.StartNew(() => new HttpResponseMessage(HttpStatusCode.BadRequest), cancellationToken);
 
             return base.ExecuteAsync(controllerContext, cancellationToken);
-        } 
+        }
     }
 }

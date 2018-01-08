@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Kontur.ImageTransformer.Filters
 {
-    class SepiaFilter : IImageFilter
+    public class SepiaFilter : IImageFilter
     {
         [DllImport("ImgProc.dll")]
         private static extern void Sepia(IntPtr imgData, int height, int width, int bytesPerPixel, int stride);

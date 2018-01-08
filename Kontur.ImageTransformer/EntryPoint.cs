@@ -29,12 +29,8 @@ namespace Kontur.ImageTransformer
     public class EntryPoint
     {
         public static void Main(string[] args)
-        {
-            var config = new HttpSelfHostConfiguration("http://localhost:8080");
-            config.MapHttpAttributeRoutes();
-            config.DependencyResolver = new NinjectDependencyResolver(Config.CreateKernel(config));
-
-            using (var server = new HttpSelfHostServer(config))
+        {          
+            using (var server = new HttpSelfHostServer(Config.CreateConfig("http://localhost:8080/")))
             {
                 server.OpenAsync().Wait();
 
