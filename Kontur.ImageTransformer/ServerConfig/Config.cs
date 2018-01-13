@@ -29,7 +29,7 @@ namespace Kontur.ImageTransformer.ServerConfig
             config.TransferMode = TransferMode.Streamed;
             config.Services.Replace(typeof(IExceptionHandler), new GlobalExceptionHandler());
             config.MessageHandlers.Add(new RouteValidator());
-            config.MaxReceivedMessageSize = 1024 * 100;
+            config.MaxReceivedMessageSize = 1024 * 101;
 
             kernel.Load(Assembly.GetExecutingAssembly());
             kernel.Bind<IImageProcessService>().To<ImageProcessService>().InSingletonScope();

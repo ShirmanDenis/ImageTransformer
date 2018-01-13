@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -36,13 +37,17 @@ namespace Kontur.ImageTransformer.Controller
             _service = service;
             _filtersFactory = filtersFactory;
         }
+        [Route("hello")]
+        public string GetSomeData()
+        {
+            return "Hello motherfucker!";
+        }
 
         [Route("threshold({value})/{x},{y},{w},{h}")]
         public async Task<HttpResponseMessage> PostThreshold(int value, int x, int y, int w, int h)
         {
             var filter = _filtersFactory.GetFilter(StrThreshold);
-            var filterParam = filter.AddParam();
-            filterParam.Value = value;
+            filter.AddParam(value);
 
             return await ProcessAndSendAsync(filter, x, y, w, h);
         }
@@ -72,14 +77,13 @@ namespace Kontur.ImageTransformer.Controller
                 var response = Request.CreateResponse();
                 var responseImgStream = new MemoryStream();
 
-                using (var processedImg = _service.Process(imgFromRequest, filter, cropArea))
-                    processedImg.Save(responseImgStream, ImageFormat.Png);
+                await _service.ProcessAsync(imgFromRequest, filter, cropArea);
+                imgFromRequest.Save(responseImgStream, ImageFormat.Png);
 
                 responseImgStream.Position = 0;
                 response.Content = new StreamContent(responseImgStream);
                 response.Content.Headers.ContentType = new MediaTypeHeaderValue(ContentType);
                 response.Content.Headers.ContentLength = responseImgStream.Length;
-
                 return response;
             }
         }

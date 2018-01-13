@@ -17,17 +17,24 @@ namespace Kontur.ImageTransformer.Filters
 
         public IImageFilterParam[] Params { get; } = new IImageFilterParam[0];
 
-        public Bitmap Filtrate(Bitmap img)
+        public void Filtrate(Bitmap img)
         {
+            if (img == null) throw new ArgumentNullException(nameof(img));
+
             var bitmapData = img.LockBits(new Rectangle(0, 0, img.Width, img.Height), ImageLockMode.ReadWrite, img.PixelFormat);
             var bytesPerPixel = Image.GetPixelFormatSize(img.PixelFormat) / 8;
 
             Sepia(bitmapData.Scan0, img.Height, img.Width, bytesPerPixel, bitmapData.Stride);
-
-            return img;
+            
+            img.UnlockBits(bitmapData);
         }
 
-        public IImageFilterParam AddParam()
+        public Task FiltrateAsync(Bitmap bitmap)
+        {
+            return Task.Factory.StartNew(() => Filtrate(bitmap));
+        }
+
+        public IImageFilterParam AddParam(object value)
         {
             // Nothing to do here
             return null;

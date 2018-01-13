@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kontur.ImageTransformer", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageTransformerTests", "ImageTransformerTests\ImageTransformerTests.csproj", "{41852CBB-1B67-4187-B8B4-0C230E380501}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApp", "TestApp\TestApp.csproj", "{247A5263-FE78-4861-8299-FFFF10B8AC4F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,18 @@ Global
 		{41852CBB-1B67-4187-B8B4-0C230E380501}.unsafe|Any CPU.Build.0 = Release|Any CPU
 		{41852CBB-1B67-4187-B8B4-0C230E380501}.unsafe|x64.ActiveCfg = Release|x64
 		{41852CBB-1B67-4187-B8B4-0C230E380501}.unsafe|x64.Build.0 = Release|x64
+		{247A5263-FE78-4861-8299-FFFF10B8AC4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{247A5263-FE78-4861-8299-FFFF10B8AC4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{247A5263-FE78-4861-8299-FFFF10B8AC4F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{247A5263-FE78-4861-8299-FFFF10B8AC4F}.Debug|x64.Build.0 = Debug|Any CPU
+		{247A5263-FE78-4861-8299-FFFF10B8AC4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{247A5263-FE78-4861-8299-FFFF10B8AC4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{247A5263-FE78-4861-8299-FFFF10B8AC4F}.Release|x64.ActiveCfg = Release|Any CPU
+		{247A5263-FE78-4861-8299-FFFF10B8AC4F}.Release|x64.Build.0 = Release|Any CPU
+		{247A5263-FE78-4861-8299-FFFF10B8AC4F}.unsafe|Any CPU.ActiveCfg = Release|Any CPU
+		{247A5263-FE78-4861-8299-FFFF10B8AC4F}.unsafe|Any CPU.Build.0 = Release|Any CPU
+		{247A5263-FE78-4861-8299-FFFF10B8AC4F}.unsafe|x64.ActiveCfg = Release|Any CPU
+		{247A5263-FE78-4861-8299-FFFF10B8AC4F}.unsafe|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

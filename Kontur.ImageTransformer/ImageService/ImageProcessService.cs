@@ -19,11 +19,18 @@ namespace Kontur.ImageTransformer.ImageService
             ServiceOptions = serviceOptions;
         }
 
-        public Bitmap Process(Bitmap image, IImageFilter filter, Rectangle scope)
+        public void Process(Bitmap image, IImageFilter filter, Rectangle scope)
         {
             var cropImage = image.Clone(scope, image.PixelFormat);
 
-            return filter.Filtrate(cropImage);
+            filter.Filtrate(cropImage);
+        }
+
+        public async Task ProcessAsync(Bitmap image, IImageFilter filter, Rectangle scope)
+        {
+            var cropImage = image.Clone(scope, image.PixelFormat);
+
+            await filter.FiltrateAsync(cropImage);
         }
 
         public Rectangle ToCropArea(Bitmap bitmap, int x, int y, int w, int h)

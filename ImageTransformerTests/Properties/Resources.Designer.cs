@@ -63,6 +63,16 @@ namespace ImageTransformerTests.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap AlphaImg {
+            get {
+                object obj = ResourceManager.GetObject("AlphaImg", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap BigImage {
             get {
                 object obj = ResourceManager.GetObject("BigImage", resourceCulture);
