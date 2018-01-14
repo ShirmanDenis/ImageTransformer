@@ -14,8 +14,8 @@ namespace Kontur.ImageTransformer.ImageService
     {
         IImageServiceOptions ServiceOptions { get; set; }
 
-        void Process(Bitmap Bitmap, IImageFilter filter, Rectangle scope);
-        Task ProcessAsync(Bitmap Bitmap, IImageFilter filter, Rectangle scope);
+        Bitmap Process(Bitmap Bitmap, IImageFilter filter, Rectangle scope);
+        Task<Bitmap> ProcessAsync(Bitmap Bitmap, IImageFilter filter, Rectangle scope);
 
         Rectangle ToCropArea(Bitmap bitmap, int x, int y, int w, int h);
     }

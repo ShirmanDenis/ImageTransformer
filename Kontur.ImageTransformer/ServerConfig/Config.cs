@@ -21,7 +21,7 @@ namespace Kontur.ImageTransformer.ServerConfig
 {
     public static class Config
     {
-        public static HttpSelfHostConfiguration CreateConfig(string baseAdress)
+        public static HttpSelfHostConfiguration Create(string baseAdress)
         {
             var config = new HttpSelfHostConfiguration(baseAdress);
             var kernel = new StandardKernel();

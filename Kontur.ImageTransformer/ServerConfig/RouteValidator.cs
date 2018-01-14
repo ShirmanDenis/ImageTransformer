@@ -12,7 +12,8 @@ namespace Kontur.ImageTransformer.ServerConfig
 {
     public class RouteValidator : DelegatingHandler
     {
-        private readonly Regex _uriRegex = new Regex(@"^/process/(sepia)|(grayscale)|(threshold\(\d+\))/\d+,\d+,\d+,\d+$");
+        private readonly Regex _uriRegex = 
+            new Regex(@"^/process/((sepia)|(grayscale)|(threshold\(([1-9][0-9]?)\))|(threshold\(0\)))/[-]?\d+,[-]?\d+,[-]?\d+,[-]?\d+$");
 
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
