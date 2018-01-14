@@ -13,7 +13,6 @@ namespace Kontur.ImageTransformer
             using (var server = new HttpSelfHostServer(Config.Create("http://localhost:8080/")))
             {
                 server.OpenAsync();
-
                 Console.WriteLine("Press Enter to quit.");
                 Console.ReadLine();
             }

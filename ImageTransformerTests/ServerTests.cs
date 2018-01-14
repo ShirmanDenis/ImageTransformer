@@ -23,9 +23,6 @@ namespace ImageTransformerTests
     [TestFixture]
     public class ServerTests
     {
-        private const string StrImgWidth = "271";
-        private const string StrImgHeight = "304"; 
-
         private const string Prefix = "http://localhost:8080";
         private byte[] _imgData;
       

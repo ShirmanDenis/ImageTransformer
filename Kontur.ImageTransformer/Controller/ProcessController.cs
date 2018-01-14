@@ -67,15 +67,13 @@ namespace Kontur.ImageTransformer.Controller
             {
                 var cropArea = _service.ToCropArea(imgFromRequest, x, y, w, h);
                 if (cropArea == Rectangle.Empty)
-                    return ControllerContext.Request.CreateResponse(HttpStatusCode.NoContent);
+                    return Request.CreateResponse(HttpStatusCode.NoContent);
 
                 var response = Request.CreateResponse();
                 var responseImgStream = new MemoryStream();
 
                 using (var processedImg = _service.Process(imgFromRequest, filter, cropArea))
-                {
                     processedImg.Save(responseImgStream, ImageFormat.Png);
-                }
                 responseImgStream.Position = 0;
 
                 response.Content = new StreamContent(responseImgStream);
