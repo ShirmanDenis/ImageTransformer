@@ -15,11 +15,11 @@ namespace ImageTransformerTests
     public class GrayscaleFilterTest
     {
         private readonly GrayscaleFilter _grayscaleFilter = new GrayscaleFilter();
-
+        private bool _cancel;
         [Test]
         public void SepiaFilter_ThrowArgumentNullException_WhenImageIsNull()
         {
-            Assert.Throws<ArgumentNullException>(() => _grayscaleFilter.Filtrate(null));
+            Assert.Throws<ArgumentNullException>(() => _grayscaleFilter.Filtrate(null, ref _cancel ));
         }
 
         [Test]
@@ -28,7 +28,7 @@ namespace ImageTransformerTests
             var testImg = Resources.AlphaImg;
             var expectedPixelsArray = Helper.GetImagePixels(testImg).Select(Grayscale);
 
-            _grayscaleFilter.Filtrate(testImg);
+            _grayscaleFilter.Filtrate(testImg, ref _cancel);
             var actualPixelsArray = Helper.GetImagePixels(testImg);
 
             CollectionAssert.AreEqual(expectedPixelsArray, actualPixelsArray);

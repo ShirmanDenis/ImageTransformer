@@ -19,33 +19,31 @@ namespace Kontur.ImageTransformer.ImageService
             ServiceOptions = serviceOptions;
         }
 
-        public Bitmap Process(Bitmap image, IImageFilter filter, Rectangle scope)
+        public Bitmap Process(Bitmap image, IImageFilter filter, Rectangle scope, ref bool cancel)
         {
             var cropImage = image.Clone(scope, image.PixelFormat);
 
-            filter.Filtrate(cropImage);
+            var success = filter.Filtrate(cropImage, ref cancel);
+            if (!success)
+                throw new OperationCanceledException();
 
             return cropImage;
         }
 
-        public async Task<Bitmap> ProcessAsync(Bitmap image, IImageFilter filter, Rectangle scope)
+
+        public Rectangle ToCropArea(Size imgSize, int x, int y, int w, int h)
         {
-            var cropImage = image.Clone(scope, image.PixelFormat);
-
-            await filter.FiltrateAsync(cropImage);
-
-            return cropImage;
-        }
-
-        public Rectangle ToCropArea(Bitmap bitmap, int x, int y, int w, int h)
-        {
-            if (bitmap == null)
-                throw new ArgumentNullException(nameof(bitmap));
-
-            if(w == 0 || h == 0) 
+            if (w == 0 || h == 0)
                 return Rectangle.Empty;
-            
-            return Rectangle.Intersect(new Rectangle(new Point(0, 0), bitmap.Size), new Rectangle(x, y, w, h));
+
+            var cropArea = Rectangle.Intersect(new Rectangle(new Point(0, 0), imgSize), new Rectangle(x, y, w, h));
+            if (cropArea.Width == 0 || cropArea.Height == 0||
+                (cropArea.Width == cropArea.Height &&
+                cropArea.X == cropArea.Y &&
+                cropArea.Width == cropArea.X))
+                return Rectangle.Empty;
+
+            return cropArea;
         }
     }
 }

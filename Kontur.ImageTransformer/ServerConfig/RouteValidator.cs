@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -19,8 +20,9 @@ namespace Kontur.ImageTransformer.ServerConfig
         {
             if (request.Method == HttpMethod.Post &&
                 _uriRegex.IsMatch(request.RequestUri.AbsolutePath))
+            {        
                 return base.SendAsync(request, cancellationToken);
-
+            }
             return Task.Factory.StartNew(() => request.CreateResponse(HttpStatusCode.BadRequest), cancellationToken);
         }
     }

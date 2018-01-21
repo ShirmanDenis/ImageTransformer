@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading;
 using FluentAssertions;
 using ImageTransformerTests.Properties;
 using Kontur.ImageTransformer.Filters;
@@ -16,11 +18,11 @@ namespace ImageTransformerTests
     public class SepiaFilterTest
     {
         private readonly SepiaFilter _filter = new SepiaFilter();
-
+        private bool _cancel;
         [Test]
         public void SepiaFilter_ThrowArgumentNullException_WhenImageIsNull()
         {
-            Assert.Throws<ArgumentNullException>(() => _filter.Filtrate(null));
+            Assert.Throws<ArgumentNullException>(() => _filter.Filtrate(null, ref _cancel));
         }
 
         [Test]
@@ -29,9 +31,10 @@ namespace ImageTransformerTests
             var testImg = Resources.AlphaImg;
             var expectedPixelsArray = Helper.GetImagePixels(testImg).Select(Sepia);
 
-            _filter.Filtrate(testImg);
+            var success = _filter.Filtrate(testImg, ref _cancel);
             var actualPixelsArray = Helper.GetImagePixels(testImg);
 
+            success.Should().BeTrue();
             CollectionAssert.AreEqual(expectedPixelsArray, actualPixelsArray);
         }
 
@@ -43,6 +46,19 @@ namespace ImageTransformerTests
             param.Should().BeNull();
 
             _filter.Params.Length.ShouldBeEquivalentTo(0);
+        }
+
+        [Test]
+        public void SepiaFilter_ShouldReturnFalse_whenOperationIsCancelled()
+        {
+            var cancel = false;
+            var ts = new CancellationTokenSource(10);
+            ts.Token.Register(() => cancel = true);
+            var s = Stopwatch.StartNew();
+            var result = _filter.Filtrate(Resources.BigImage, ref cancel);
+            s.Stop();
+            
+            result.Should().BeFalse();
         }
 
         private Color Sepia(Color pixel)

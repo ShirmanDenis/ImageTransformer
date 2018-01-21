@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Net;
@@ -101,6 +102,7 @@ namespace ImageTransformerTests
 
         [Test]
         [TestCase("/process/sepia/0,0,0,0")]
+        [TestCase("/process/sepia/1,1,1,1")]
         [TestCase("/process/sepia/271,304,271,304")]
         [TestCase("/process/sepia/271,304,0,0")]
         [TestCase("/process/sepia/0,0,-271,-304")]
@@ -139,6 +141,11 @@ namespace ImageTransformerTests
             var response = await _client.PostAsync(Prefix + uri, new StreamContent(imgStream));
 
             response.StatusCode.ShouldBeEquivalentTo(HttpStatusCode.BadRequest);
-        } 
+        }
+
+        [Test]
+        public void Test()
+        {
+        }
     }
 }

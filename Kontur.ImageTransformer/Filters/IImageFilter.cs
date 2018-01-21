@@ -8,8 +8,7 @@ namespace Kontur.ImageTransformer.Filters
     public interface IImageFilter
     {
         IImageFilterParam[] Params { get; }
-        void Filtrate(Bitmap bitmap);
-        Task FiltrateAsync(Bitmap bitmap);
+        bool Filtrate(Bitmap bitmap, ref bool cancel);
         IImageFilterParam AddParam(object value);
     }
 }
