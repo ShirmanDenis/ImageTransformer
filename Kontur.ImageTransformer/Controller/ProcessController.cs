@@ -1,16 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Results;
 using System.Web.Http.Controllers;
-using Kontur.ImageTransformer.Common;
 using Kontur.ImageTransformer.Filters;
 using Kontur.ImageTransformer.FiltersFactory;
 using Kontur.ImageTransformer.ImageService;
@@ -23,8 +25,8 @@ namespace Kontur.ImageTransformer.Controller
     {
         private readonly IImageProcessService _service;
         private readonly IFiltersFactory _filtersFactory;
-
-        private bool _cancel = false;
+        private readonly Logger _logger = LogManager.GetCurrentClassLogger();
+        private bool _cancel;
 
         public ProcessController(IImageProcessService service, IFiltersFactory filtersFactory)
         {
@@ -35,7 +37,7 @@ namespace Kontur.ImageTransformer.Controller
         [Route("threshold({value})/{x},{y},{w},{h}")]
         public async Task<IHttpActionResult> PostThreshold(int value, int x, int y, int w, int h)
         {
-            var filter = _filtersFactory.GetFilter(Constants.StrThreshold);
+            var filter = _filtersFactory.GetFilter("threshold");
             filter.AddParam(value);
 
             return await ProcessAndSendAsync(filter, x, y, w, h);
@@ -44,7 +46,7 @@ namespace Kontur.ImageTransformer.Controller
         [Route("sepia/{x},{y},{w},{h}")]
         public async Task<IHttpActionResult> PostSepia(int x, int y, int w, int h)
         {
-            var filter = _filtersFactory.GetFilter(Constants.StrSepia);
+            var filter = _filtersFactory.GetFilter("sepia");
 
             return await ProcessAndSendAsync(filter, x, y, w, h);
         }
@@ -52,7 +54,7 @@ namespace Kontur.ImageTransformer.Controller
         [Route("grayscale/{x},{y},{w},{h}")]
         public async Task<IHttpActionResult> PostGrayscale(int x, int y, int w, int h)
         {
-            var filter = _filtersFactory.GetFilter(Constants.StrGrayscale);
+            var filter = _filtersFactory.GetFilter("grayscale");
 
             return await ProcessAndSendAsync(filter, x, y, w, h);
         }
@@ -78,7 +80,7 @@ namespace Kontur.ImageTransformer.Controller
 
                     var response = Request.CreateResponse(HttpStatusCode.OK);
                     response.Content = new StreamContent(responseImgStream);
-                    response.Content.Headers.ContentType = new MediaTypeHeaderValue(Constants.ContentType);
+                    response.Content.Headers.ContentType = new MediaTypeHeaderValue("image/png");
 
                     result = ResponseMessage(response);
                 }
@@ -89,7 +91,7 @@ namespace Kontur.ImageTransformer.Controller
             }
             catch (Exception e)
             {
-                LogManager.GetCurrentClassLogger().Error(e);
+                _logger.Error(e);
                 result = ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e));
             }
             return result;
@@ -100,9 +102,6 @@ namespace Kontur.ImageTransformer.Controller
             var contentLength = controllerContext.Request.Content.Headers.ContentLength;
             if (contentLength == null || contentLength > _service.ServiceOptions.MaxImageSize)
                 return await Task.Factory.StartNew(() => new HttpResponseMessage(HttpStatusCode.BadRequest), cancellationToken);
-            
-            var cancelSource = new CancellationTokenSource(1000);
-            cancelSource.Token.Register(() => _cancel = true);
 
             return await base.ExecuteAsync(controllerContext, cancellationToken);
         }

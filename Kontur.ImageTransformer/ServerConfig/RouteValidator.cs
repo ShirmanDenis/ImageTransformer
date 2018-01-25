@@ -14,16 +14,17 @@ namespace Kontur.ImageTransformer.ServerConfig
     public class RouteValidator : DelegatingHandler
     {
         private readonly Regex _uriRegex = 
-            new Regex(@"^/process/((sepia)|(grayscale)|(threshold\(([1-9][0-9]?)\))|(threshold\(0\)))/[-]?\d+,[-]?\d+,[-]?\d+,[-]?\d+$");
+            new Regex(@"^/process/((sepia)|(grayscale)|(threshold\(([1-9][0-9]?)\))|(threshold\(0\))|(threshold\(100\)))/[-]?\d+,[-]?\d+,[-]?\d+,[-]?\d+$");
 
-        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+        protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
             if (request.Method == HttpMethod.Post &&
                 _uriRegex.IsMatch(request.RequestUri.AbsolutePath))
-            {        
-                return base.SendAsync(request, cancellationToken);
+            {                      
+                return await base.SendAsync(request, cancellationToken);
             }
-            return Task.Factory.StartNew(() => request.CreateResponse(HttpStatusCode.BadRequest), cancellationToken);
+            
+            return await Task.Factory.StartNew(() => request.CreateResponse(HttpStatusCode.BadRequest), cancellationToken);
         }
     }
 }

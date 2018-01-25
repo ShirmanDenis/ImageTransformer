@@ -101,7 +101,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Common\Constants.cs" />
     <Compile Include="Controller\ProcessController.cs" />
     <Compile Include="EntryPoint.cs" />
     <Compile Include="FiltersFactory\FiltersFactory.cs" />
