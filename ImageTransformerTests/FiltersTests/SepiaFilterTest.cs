@@ -22,7 +22,7 @@ namespace ImageTransformerTests
         [Test]
         public void SepiaFilter_ThrowArgumentNullException_WhenImageIsNull()
         {
-            Assert.Throws<ArgumentNullException>(() => _filter.Filtrate(null, ref _cancel));
+            Assert.Throws<ArgumentNullException>(() => _filter.Filtrate(null));
         }
 
         [Test]
@@ -31,7 +31,7 @@ namespace ImageTransformerTests
             var testImg = Resources.AlphaImg;
             var expectedPixelsArray = Helper.GetImagePixels(testImg).Select(Sepia);
 
-            var success = _filter.Filtrate(testImg, ref _cancel);
+            var success = _filter.Filtrate(testImg);
             var actualPixelsArray = Helper.GetImagePixels(testImg);
 
             success.Should().BeTrue();
@@ -48,24 +48,11 @@ namespace ImageTransformerTests
             _filter.Params.Length.ShouldBeEquivalentTo(0);
         }
 
-        [Test]
-        public void SepiaFilter_ShouldReturnFalse_whenOperationIsCancelled()
-        {
-            var cancel = false;
-            var ts = new CancellationTokenSource(10);
-            ts.Token.Register(() => cancel = true);
-            var s = Stopwatch.StartNew();
-            var result = _filter.Filtrate(Resources.BigImage, ref cancel);
-            s.Stop();
-            
-            result.Should().BeFalse();
-        }
-
         private Color Sepia(Color pixel)
         {
-            var R = (pixel.R * .393) + (pixel.G * .769) + (pixel.B * .189);
-            var G = (pixel.R * .349) + (pixel.G * .686) + (pixel.B * .168);
-            var B = (pixel.R * .272) + (pixel.G * .534) + (pixel.B * .131);
+            var R = (pixel.R * .393f) + (pixel.G * .769f) + (pixel.B * .189f);
+            var G = (pixel.R * .349f) + (pixel.G * .686f) + (pixel.B * .168f);
+            var B = (pixel.R * .272f) + (pixel.G * .534f) + (pixel.B * .131f);
 
             if (R > 255)
                 R = 255;

@@ -22,13 +22,13 @@ namespace ImageTransformerTests
         [Test]
         public void ThresholdFilter_ThrowArgumentNullException_WhenImageIsNull()
         {
-            Assert.Throws<ArgumentNullException>(() => _thresholdFilter.Filtrate(null, ref _cancel));
+            Assert.Throws<ArgumentNullException>(() => _thresholdFilter.Filtrate(null));
         }
 
         [Test]
         public void ThresholdFilter_ShouldThrowException_whenParameterNotAdded()
         {
-            Assert.Throws<Exception>(() => _thresholdFilter.Filtrate(Resources.AlphaImg, ref _cancel), "Parameter is not setted");
+            Assert.Throws<Exception>(() => _thresholdFilter.Filtrate(Resources.AlphaImg), "Parameter is not setted");
         }
 
         [Test]
@@ -41,7 +41,7 @@ namespace ImageTransformerTests
             var expectedPixelsArray = Helper.GetImagePixels(testImg).Select(c => Threshold(c, value));
             _thresholdFilter.AddParam(value);
 
-            _thresholdFilter.Filtrate(testImg, ref _cancel);
+            _thresholdFilter.Filtrate(testImg);
             var actualPixelsArray = Helper.GetImagePixels(testImg);
 
             CollectionAssert.AreEqual(expectedPixelsArray, actualPixelsArray);

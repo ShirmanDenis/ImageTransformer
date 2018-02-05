@@ -1,28 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
-using System.Net;
 using System.Net.Http;
-using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Web;
+using System.Web.Http;
 using System.Web.Http.Dispatcher;
 using System.Web.Http.SelfHost;
-using Kontur.ImageTransformer.Controller;
-using Kontur.ImageTransformer.Filters;
-using Kontur.ImageTransformer.ImageService;
 using Kontur.ImageTransformer.ServerConfig;
-using uhttpsharp;
-using uhttpsharp.Attributes;
-using uhttpsharp.Controllers;
-using uhttpsharp.Handlers;
-using uhttpsharp.Listeners;
-using uhttpsharp.ModelBinders;
-using uhttpsharp.RequestProviders;
 
 namespace Kontur.ImageTransformer
 {
@@ -32,6 +17,9 @@ namespace Kontur.ImageTransformer
         {
             using (var server = new HttpSelfHostServer(Config.Create("http://localhost:8080/")))
             {
+                //ThreadPool.SetMinThreads(10000, 10000);
+                //ThreadPool.SetMaxThreads(10000, 10000);
+
                 try
                 {
                     server.OpenAsync();
@@ -44,6 +32,18 @@ namespace Kontur.ImageTransformer
                 }
 
             }
+            //var cancel = new CancellationTokenSource(500);
+            //cancel.Token.Register(() =>
+            //{
+            //    Console.WriteLine("Canceled!");
+            //});
+            //cancel.CancelAfter(500);
+            //Task.Factory.StartNew(() =>
+            //{
+            //    Thread.Sleep(1000);
+            //    Console.WriteLine("Done!");
+            //}, cancel.Token);
+            //Console.Read();
         }
     }
 }

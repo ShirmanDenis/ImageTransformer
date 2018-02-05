@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -19,11 +20,15 @@ namespace Kontur.ImageTransformer.ImageService
             ServiceOptions = serviceOptions;
         }
 
-        public Bitmap Process(Bitmap image, IImageFilter filter, Rectangle scope, ref bool cancel)
+        public Bitmap Process(Bitmap image, IImageFilter filter, Rectangle scope)
         {
-            var cropImage = image.Clone(scope, image.PixelFormat);
+            if (image == null)
+                throw new ArgumentNullException(nameof(image));
+            if (filter == null)
+                throw new ArgumentNullException(nameof(filter));
 
-            var success = filter.Filtrate(cropImage, ref cancel);
+            var cropImage = image.Clone(scope, image.PixelFormat);
+            var success = filter.Filtrate(cropImage);
             if (!success)
                 throw new OperationCanceledException();
 
@@ -37,10 +42,11 @@ namespace Kontur.ImageTransformer.ImageService
                 return Rectangle.Empty;
 
             var cropArea = Rectangle.Intersect(new Rectangle(new Point(0, 0), imgSize), new Rectangle(x, y, w, h));
-            if (cropArea.Width == 0 || cropArea.Height == 0||
-                (cropArea.Width == cropArea.Height &&
+            if (cropArea.Width == 0 || 
+                cropArea.Height == 0 ||
+                cropArea.Width == cropArea.Height &&
                 cropArea.X == cropArea.Y &&
-                cropArea.Width == cropArea.X))
+                cropArea.Width == cropArea.X)
                 return Rectangle.Empty;
 
             return cropArea;

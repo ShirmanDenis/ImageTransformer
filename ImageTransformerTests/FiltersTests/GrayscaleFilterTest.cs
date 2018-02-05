@@ -19,7 +19,7 @@ namespace ImageTransformerTests
         [Test]
         public void SepiaFilter_ThrowArgumentNullException_WhenImageIsNull()
         {
-            Assert.Throws<ArgumentNullException>(() => _grayscaleFilter.Filtrate(null, ref _cancel ));
+            Assert.Throws<ArgumentNullException>(() => _grayscaleFilter.Filtrate(null));
         }
 
         [Test]
@@ -28,7 +28,7 @@ namespace ImageTransformerTests
             var testImg = Resources.AlphaImg;
             var expectedPixelsArray = Helper.GetImagePixels(testImg).Select(Grayscale);
 
-            _grayscaleFilter.Filtrate(testImg, ref _cancel);
+            _grayscaleFilter.Filtrate(testImg);
             var actualPixelsArray = Helper.GetImagePixels(testImg);
 
             CollectionAssert.AreEqual(expectedPixelsArray, actualPixelsArray);

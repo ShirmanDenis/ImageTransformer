@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime;
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +18,7 @@ using Kontur.ImageTransformer.ImageService;
 using Ninject;
 using Ninject.Web.WebApi;
 using Ninject.Web.WebApi.Filter;
+using WebApiThrottle;
 
 namespace Kontur.ImageTransformer.ServerConfig
 {
@@ -26,9 +28,11 @@ namespace Kontur.ImageTransformer.ServerConfig
         {
             var config = new HttpSelfHostConfiguration(baseAdress);
             var kernel = new StandardKernel();
+
             config.MapHttpAttributeRoutes();
-            config.TransferMode = TransferMode.Streamed;
+            config.TransferMode = TransferMode.StreamedRequest;
             config.Services.Replace(typeof(IExceptionHandler), new GlobalExceptionHandler());
+            config.MessageHandlers.Add(new ThrottleHandler());
             config.MessageHandlers.Add(new RouteValidator());
             config.MaxReceivedMessageSize = 1024 * 101;
             
@@ -54,7 +58,7 @@ namespace Kontur.ImageTransformer.ServerConfig
                 .ToConstant(new DefaultFilterProviders(new[] { new NinjectFilterProvider(kernel) }.AsEnumerable()));
 
             config.DependencyResolver = new NinjectDependencyResolver(kernel);
-
+            config.EnsureInitialized();
             return config;
         }
     }

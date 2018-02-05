@@ -16,6 +16,7 @@ using System.Web.Http.Controllers;
 using Kontur.ImageTransformer.Filters;
 using Kontur.ImageTransformer.FiltersFactory;
 using Kontur.ImageTransformer.ImageService;
+using Kontur.ImageTransformer.ServerConfig;
 using NLog;
 
 namespace Kontur.ImageTransformer.Controller
@@ -25,8 +26,6 @@ namespace Kontur.ImageTransformer.Controller
     {
         private readonly IImageProcessService _service;
         private readonly IFiltersFactory _filtersFactory;
-        private readonly Logger _logger = LogManager.GetCurrentClassLogger();
-        private bool _cancel;
 
         public ProcessController(IImageProcessService service, IFiltersFactory filtersFactory)
         {
@@ -63,21 +62,19 @@ namespace Kontur.ImageTransformer.Controller
         {
             ResponseMessageResult result;
             try
-            {
+            {              
                 using (var requestStream = await Request.Content.ReadAsStreamAsync())
                 using (var imgFromRequest = new Bitmap(requestStream))
                 {
                     var cropArea = _service.ToCropArea(imgFromRequest.Size, x, y, w, h);
                     if (cropArea == Rectangle.Empty)
-                    {
                         return ResponseMessage(Request.CreateResponse(HttpStatusCode.NoContent));
-                    }
 
                     var responseImgStream = new MemoryStream();
-                    using (var processedImg = _service.Process(imgFromRequest, filter, cropArea, ref _cancel))
+                    using (var processedImg = _service.Process(imgFromRequest, filter, cropArea))
                         processedImg.Save(responseImgStream, ImageFormat.Png);
                     responseImgStream.Position = 0;
-
+                    
                     var response = Request.CreateResponse(HttpStatusCode.OK);
                     response.Content = new StreamContent(responseImgStream);
                     response.Content.Headers.ContentType = new MediaTypeHeaderValue("image/png");
@@ -91,7 +88,6 @@ namespace Kontur.ImageTransformer.Controller
             }
             catch (Exception e)
             {
-                _logger.Error(e);
                 result = ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e));
             }
             return result;
@@ -102,7 +98,7 @@ namespace Kontur.ImageTransformer.Controller
             var contentLength = controllerContext.Request.Content.Headers.ContentLength;
             if (contentLength == null || contentLength > _service.ServiceOptions.MaxImageSize)
                 return await Task.Factory.StartNew(() => new HttpResponseMessage(HttpStatusCode.BadRequest), cancellationToken);
-
+            
             return await base.ExecuteAsync(controllerContext, cancellationToken);
         }
     }

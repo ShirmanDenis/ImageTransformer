@@ -13,11 +13,11 @@ namespace Kontur.ImageTransformer.Filters
     public class ThresholdFilter : IImageFilter
     {
         [DllImport("ImgProc.dll")]
-        private static extern int Threshold(IntPtr imgData, int value, int height, int width, int bytesPerPixel, int stride, ref bool cancel);
+        private static extern int Threshold(IntPtr imgData, int value, int height, int width, int stride, int bytesPerPixel);
 
         public IImageFilterParam[] Params { get; } = new IImageFilterParam[1];
 
-        public bool Filtrate(Bitmap img, ref bool cancel)
+        public bool Filtrate(Bitmap img)
         {
             if (img == null) throw new ArgumentNullException(nameof(img));
 
@@ -27,7 +27,7 @@ namespace Kontur.ImageTransformer.Filters
             var value = Params.FirstOrDefault()?.Value;
             if (value == null) throw new Exception("Parameter is not setted");
             
-            var result = Threshold(bitmapData.Scan0, (int)value, img.Height, img.Width, bytesPerPixel, bitmapData.Stride, ref cancel);
+            var result = Threshold(bitmapData.Scan0, (int)value, img.Height, img.Width, bitmapData.Stride, bytesPerPixel);
 
             img.UnlockBits(bitmapData);
 
