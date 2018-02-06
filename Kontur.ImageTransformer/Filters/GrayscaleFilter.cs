@@ -13,7 +13,7 @@ namespace Kontur.ImageTransformer.Filters
     public class GrayscaleFilter : IImageFilter
     {
         [DllImport("ImgProc.dll")]
-        private static extern int Grayscale(IntPtr imgData, int height, int width, int stride, int bytesPerPixel);
+        private static extern int Grayscale(IntPtr imgData, int height, int width, int bytesPerPixel, int stride);
 
         public IImageFilterParam[] Params { get; } = new IImageFilterParam[0];
 
@@ -24,7 +24,7 @@ namespace Kontur.ImageTransformer.Filters
             var bitmapData = img.LockBits(new Rectangle(0, 0, img.Width, img.Height), ImageLockMode.ReadWrite, img.PixelFormat);
             var bytesPerPixel = Image.GetPixelFormatSize(img.PixelFormat) / 8;
 
-            var result = Grayscale(bitmapData.Scan0, img.Height, img.Width, bitmapData.Stride, bytesPerPixel);
+            var result = Grayscale(bitmapData.Scan0, img.Height, img.Width, bytesPerPixel, bitmapData.Stride);
 
             img.UnlockBits(bitmapData);
 

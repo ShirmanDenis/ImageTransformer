@@ -61,7 +61,7 @@ namespace ImageTransformerTests
             if (B > 255)
                 B = 255;
 
-            return Color.FromArgb((int) R, (int) G, (int) B);
+            return Color.FromArgb((byte) R, (byte) G, (byte) B);
         }
     }
 }
