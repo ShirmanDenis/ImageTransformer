@@ -16,42 +16,34 @@ namespace Kontur.ImageTransformer.ServerConfig
 {
     public class ThrottleHandler : DelegatingHandler
     {
-        //private readonly Timer t = new Timer() { Enabled = true, Interval = 100 };
-        //private readonly Timer t1 = new Timer() { Enabled = true, Interval = 1 };
-       // private readonly Ping ping = new Ping();
-       // private readonly ConcurrentBag<HttpRequestMessage> _bag = new ConcurrentBag<HttpRequestMessage>();
-        private readonly ConcurrentDictionary<HttpRequestMessage, Stopwatch> _dict = new ConcurrentDictionary<HttpRequestMessage, Stopwatch>();
-        //private void T_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
-        //{
-        //    Console.WriteLine(_bag.Count);
-        //}
-
-        public ThrottleHandler()
-        {
-            //t.Elapsed += (s, e) =>
-            //{
-            //    //ThreadPool.GetAvailableThreads(out var w, out var c);
-            //    Console.WriteLine($"{Process.GetCurrentProcess().Threads.Count}");
-            //};
-            //t1.Elapsed += (s, e) =>
-            //{
-            //    Console.WriteLine(_bag.Count);
-            //};
-        }
+        private int _setted = 800;
+        private readonly ConcurrentDictionary<HttpRequestMessage, DateTime> _dict = new ConcurrentDictionary<HttpRequestMessage, DateTime>();
+        private int rps = 0;
 
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            _dict.TryAdd(request, Stopwatch.StartNew());
-            //Interlocked.Increment(ref _count);
-            //_bag.Add(request);
+            rps = Calc();
+
+            if (rps >= _setted)
+                return request.CreateResponse(429);
+            _dict.TryAdd(request, DateTime.Now);
+
             var msg = await base.SendAsync(request, cancellationToken);
+
+            var cancelSource = new CancellationTokenSource(1000);
+            cancelSource.Token.Register(() => _dict.TryRemove(request, out var t));
             
-            //if(!_bag.TryTake(out request))
-            //    Console.Write("failed");
-            _dict.TryGetValue(request, out var s);
-            s.Stop();
-            Console.WriteLine(s.ElapsedMilliseconds);
             return msg;
+        }
+
+        private int Calc()
+        {
+            return rps = _dict.Values.Count(t => Comp(t, DateTime.Now));
+        }
+
+        private bool Comp(DateTime l, DateTime r)
+        {
+            return l.Day == r.Day && l.Hour == r.Hour && l.Minute == r.Minute && l.Second == r.Second;
         }
     }
 }

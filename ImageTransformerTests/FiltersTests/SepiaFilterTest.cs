@@ -18,7 +18,6 @@ namespace ImageTransformerTests
     public class SepiaFilterTest
     {
         private readonly SepiaFilter _filter = new SepiaFilter();
-        private bool _cancel;
         [Test]
         public void SepiaFilter_ThrowArgumentNullException_WhenImageIsNull()
         {

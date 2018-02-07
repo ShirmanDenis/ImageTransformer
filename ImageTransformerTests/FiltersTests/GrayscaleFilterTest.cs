@@ -15,7 +15,6 @@ namespace ImageTransformerTests
     public class GrayscaleFilterTest
     {
         private readonly GrayscaleFilter _grayscaleFilter = new GrayscaleFilter();
-        private bool _cancel;
         [Test]
         public void SepiaFilter_ThrowArgumentNullException_WhenImageIsNull()
         {

@@ -76,7 +76,12 @@ namespace Kontur.ImageTransformer.Controller
                     responseImgStream.Position = 0;
                     
                     var response = Request.CreateResponse(HttpStatusCode.OK);
-                    response.Content = new StreamContent(responseImgStream);
+                    response.Content =  new PushStreamContent((stream, content, arg3) =>
+                    {
+                        stream.WriteAsync(responseImgStream.ToArray(), 0, (int) responseImgStream.Length);
+                        stream.Close();
+                    });
+
                     response.Content.Headers.ContentType = new MediaTypeHeaderValue("image/png");
 
                     result = ResponseMessage(response);
@@ -88,6 +93,7 @@ namespace Kontur.ImageTransformer.Controller
             }
             catch (Exception e)
             {
+                LogManager.GetCurrentClassLogger().Error(e);
                 result = ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e));
             }
             return result;
