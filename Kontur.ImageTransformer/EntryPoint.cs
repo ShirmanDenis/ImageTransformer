@@ -24,12 +24,7 @@ namespace Kontur.ImageTransformer
             {
                 server.OpenAsync();
                 Console.WriteLine("Press Enter to quit.");
-                while (true)
-                {
-                    var k = Console.ReadKey(true);
-                    if (k.Key == ConsoleKey.Spacebar)
-                        Console.WriteLine(Process.GetCurrentProcess().Threads.Count);
-                }
+                Console.Read();
             }
         }
     }

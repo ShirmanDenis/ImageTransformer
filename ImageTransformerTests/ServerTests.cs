@@ -142,10 +142,5 @@ namespace ImageTransformerTests
 
             response.StatusCode.ShouldBeEquivalentTo(HttpStatusCode.BadRequest);
         }
-
-        [Test]
-        public void Test()
-        {
-        }
     }
 }

@@ -74,7 +74,7 @@ namespace Kontur.ImageTransformer.Controller
                     using (var processedImg = _service.Process(imgFromRequest, filter, cropArea))
                         processedImg.Save(responseImgStream, ImageFormat.Png);
                     responseImgStream.Position = 0;
-                    
+
                     var response = Request.CreateResponse(HttpStatusCode.OK);
                     response.Content =  new PushStreamContent((stream, content, arg3) =>
                     {

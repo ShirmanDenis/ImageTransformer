@@ -40,6 +40,18 @@ namespace Kontur.ImageTransformer.ImageService
         {
             if (w == 0 || h == 0)
                 return Rectangle.Empty;
+            if (w < 0)
+            {
+                var temp = x;
+                x = Math.Max(x + w, 0);
+                w = temp - x;
+            }
+            if (h < 0)
+            {
+                var temp = y;
+                y = Math.Max(y + h, 0);
+                h = temp - y;
+            }
 
             var cropArea = Rectangle.Intersect(new Rectangle(new Point(0, 0), imgSize), new Rectangle(x, y, w, h));
             if (cropArea.Width == 0 || 

@@ -12,6 +12,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
+using System.Web.Http.Dispatcher;
 using System.Web.Http.ExceptionHandling;
 using System.Web.Http.SelfHost;
 using System.Web.Http.Validation;
@@ -67,4 +68,5 @@ namespace Kontur.ImageTransformer.ServerConfig
             return config;
         }
     }
+
 }

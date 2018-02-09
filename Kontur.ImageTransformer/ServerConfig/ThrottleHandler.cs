@@ -10,40 +10,39 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Http;
+using System.Web.Http.Dispatcher;
+using ThreadState = System.Diagnostics.ThreadState;
 using Timer = System.Timers.Timer;
 
 namespace Kontur.ImageTransformer.ServerConfig
 {
     public class ThrottleHandler : DelegatingHandler
     {
-        private int _setted = 800;
-        private readonly ConcurrentDictionary<HttpRequestMessage, DateTime> _dict = new ConcurrentDictionary<HttpRequestMessage, DateTime>();
-        private int rps = 0;
+        //private readonly ConcurrentDictionary<HttpRequestMessage, DateTime> _dict = new ConcurrentDictionary<HttpRequestMessage, DateTime>();
+        private readonly SemaphoreSlim _semaphore = new SemaphoreSlim(500);
+        private readonly Timer _t = new Timer(){Enabled = true, Interval = 1};
+
+        public ThrottleHandler()
+        {
+            _t.Elapsed += (sender, args) =>
+            {
+                Console.WriteLine(_semaphore.CurrentCount);
+            };
+        }
 
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            rps = Calc();
-
-            if (rps >= _setted)
-                return request.CreateResponse(429);
-            _dict.TryAdd(request, DateTime.Now);
-
+            //Console.WriteLine(_semaphore.CurrentCount);
+            //if (_semaphore.CurrentCount == 0)
+            //{
+            //    Console.WriteLine(".!.");
+            //    return request.CreateResponse(429);
+            //}
+            await _semaphore.WaitAsync();
             var msg = await base.SendAsync(request, cancellationToken);
-
-            var cancelSource = new CancellationTokenSource(1000);
-            cancelSource.Token.Register(() => _dict.TryRemove(request, out var t));
-            
+            _semaphore.Release();
             return msg;
-        }
-
-        private int Calc()
-        {
-            return rps = _dict.Values.Count(t => Comp(t, DateTime.Now));
-        }
-
-        private bool Comp(DateTime l, DateTime r)
-        {
-            return l.Day == r.Day && l.Hour == r.Hour && l.Minute == r.Minute && l.Second == r.Second;
         }
     }
 }
