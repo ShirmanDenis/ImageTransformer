@@ -57,7 +57,7 @@ namespace Kontur.ImageTransformer.Controller
 
             return await ProcessAndSendAsync(filter, x, y, w, h);
         }
-        
+
         private async Task<IHttpActionResult> ProcessAndSendAsync(IImageFilter filter, int x, int y, int w, int h)
         {
             ResponseMessageResult result;
@@ -76,12 +76,7 @@ namespace Kontur.ImageTransformer.Controller
                     responseImgStream.Position = 0;
 
                     var response = Request.CreateResponse(HttpStatusCode.OK);
-                    response.Content =  new PushStreamContent((stream, content, arg3) =>
-                    {
-                        stream.WriteAsync(responseImgStream.ToArray(), 0, (int) responseImgStream.Length);
-                        stream.Close();
-                    });
-
+                    response.Content = new StreamContent(responseImgStream);
                     response.Content.Headers.ContentType = new MediaTypeHeaderValue("image/png");
 
                     result = ResponseMessage(response);
@@ -93,7 +88,6 @@ namespace Kontur.ImageTransformer.Controller
             }
             catch (Exception e)
             {
-                LogManager.GetCurrentClassLogger().Error(e);
                 result = ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e));
             }
             return result;
@@ -102,7 +96,7 @@ namespace Kontur.ImageTransformer.Controller
         public override async Task<HttpResponseMessage> ExecuteAsync(HttpControllerContext controllerContext, CancellationToken cancellationToken)
         {
             var contentLength = controllerContext.Request.Content.Headers.ContentLength;
-            if (contentLength == null || contentLength > _service.ServiceOptions.MaxImageSize)
+            if (contentLength == null || contentLength > _service.Options.MaxImageSize)
                 return await Task.Factory.StartNew(() => new HttpResponseMessage(HttpStatusCode.BadRequest), cancellationToken);
             
             return await base.ExecuteAsync(controllerContext, cancellationToken);

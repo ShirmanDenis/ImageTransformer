@@ -13,11 +13,11 @@ namespace Kontur.ImageTransformer.ImageService
 {
     public class ImageProcessService : IImageProcessService
     {
-        public IImageServiceOptions ServiceOptions { get; set; }
+        public ImageServiceOptions Options { get; set; }
 
-        public ImageProcessService(IImageServiceOptions serviceOptions)
+        public ImageProcessService(ImageServiceOptions serviceOptions = null)
         {
-            ServiceOptions = serviceOptions;
+            Options = serviceOptions ?? new ImageServiceOptions();
         }
 
         public Bitmap Process(Bitmap image, IImageFilter filter, Rectangle scope)
@@ -54,6 +54,7 @@ namespace Kontur.ImageTransformer.ImageService
             }
 
             var cropArea = Rectangle.Intersect(new Rectangle(new Point(0, 0), imgSize), new Rectangle(x, y, w, h));
+            
             if (cropArea.Width == 0 || 
                 cropArea.Height == 0 ||
                 cropArea.Width == cropArea.Height &&

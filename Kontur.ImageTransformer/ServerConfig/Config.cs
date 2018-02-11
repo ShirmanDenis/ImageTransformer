@@ -37,7 +37,7 @@ namespace Kontur.ImageTransformer.ServerConfig
             config.MapHttpAttributeRoutes();
             config.TransferMode = TransferMode.StreamedRequest;
             config.Services.Replace(typeof(IExceptionHandler), new GlobalExceptionHandler());
-            //config.MessageHandlers.Add(new ThrottleHandler());
+            config.MessageHandlers.Add(new ThrottlingHandler());
             config.MessageHandlers.Add(new RouteValidator());
             config.MaxReceivedMessageSize = 1024 * 101;
 
@@ -52,8 +52,7 @@ namespace Kontur.ImageTransformer.ServerConfig
                     factory.RegisterFilter("grayscale", new GrayscaleFilter());
                 });
 
-            kernel.Bind<IImageServiceOptions>().To<ImageServiceOptions>().InSingletonScope();
-
+            kernel.Bind<ImageServiceOptions>().ToSelf().InSingletonScope();
             kernel
                 .Bind<DefaultModelValidatorProviders>()
                 .ToConstant(new DefaultModelValidatorProviders(config.Services.GetServices(typeof(ModelValidatorProvider))

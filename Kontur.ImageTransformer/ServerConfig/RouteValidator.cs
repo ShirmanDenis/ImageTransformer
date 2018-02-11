@@ -22,12 +22,10 @@ namespace Kontur.ImageTransformer.ServerConfig
             if (request.Method == HttpMethod.Post &&
                 _uriRegex.IsMatch(request.RequestUri.AbsolutePath))
             {                    
-                var cancel = new CancellationTokenSource();
-                cancel.CancelAfter(500);
-                return  await base.SendAsync(request, cancel.Token);
+                return await base.SendAsync(request, cancellationToken);
             }
-            
-            return await Task.Factory.StartNew(() => request.CreateResponse(HttpStatusCode.BadRequest), cancellationToken);
+
+            return request.CreateResponse(HttpStatusCode.BadRequest);
         }
     }
 }

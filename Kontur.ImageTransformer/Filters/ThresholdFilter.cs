@@ -13,7 +13,7 @@ namespace Kontur.ImageTransformer.Filters
     public class ThresholdFilter : IImageFilter
     {
         [DllImport("ImgProc.dll")]
-        private static extern int Threshold(IntPtr imgData, int value, int height, int width, int bytesPerPixelint, int stride);
+        private static extern int Threshold(IntPtr imgData, int value, int height, int width, int bytesPerPixel, int stride);
 
         public IImageFilterParam[] Params { get; } = new IImageFilterParam[1];
 

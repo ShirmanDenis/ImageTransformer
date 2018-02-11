@@ -12,7 +12,7 @@ namespace Kontur.ImageTransformer.ImageService
 {
     public interface IImageProcessService
     {
-        IImageServiceOptions ServiceOptions { get; set; }
+        ImageServiceOptions Options { get; set; }
 
         Bitmap Process(Bitmap Bitmap, IImageFilter filter, Rectangle scope);
 
