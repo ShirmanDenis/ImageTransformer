@@ -30,10 +30,9 @@ namespace Kontur.ImageTransformer.ServerConfig
             config.MapHttpAttributeRoutes();
             config.TransferMode = TransferMode.Streamed;
             config.Services.Replace(typeof(IExceptionHandler), new GlobalExceptionHandler());
-            //config.MessageHandlers.Add(new ThrottlingHandler(500));
+            config.MessageHandlers.Add(new ThrottlingHandler(500));
             config.MessageHandlers.Add(new RouteValidator());
             config.MaxReceivedMessageSize = int.MaxValue;
-            //GCSettings.LatencyMode = GCLatencyMode.LowLatency;
             kernel.Load(Assembly.GetExecutingAssembly());
             kernel.Bind<IImageProcessService>().To<ImageProcessService>().InSingletonScope();
             kernel.Bind<IFiltersFactory>().To<FiltersFactory.FiltersFactory>()

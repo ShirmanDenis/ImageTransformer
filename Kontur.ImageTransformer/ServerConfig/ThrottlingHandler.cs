@@ -16,14 +16,6 @@ namespace Kontur.ImageTransformer.ServerConfig
         public ThrottlingHandler(int avgScriptExecTimeInMiliSeconds)
         {
             threshold = avgScriptExecTimeInMiliSeconds;
-            //Task.Run(() =>
-            //{
-            //    while (true)
-            //    {
-            //        ThreadPool.GetAvailableThreads(out var w, out var c);
-            //        Console.WriteLine($"{w} {c}");
-            //    }
-            //});
         }
 
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
@@ -34,7 +26,6 @@ namespace Kontur.ImageTransformer.ServerConfig
                 avg = times.Average(t => t.ElapsedMilliseconds);
             if (avg > threshold)
             {
-                Console.WriteLine(avg);
                 return request.CreateResponse(429);
             }
 

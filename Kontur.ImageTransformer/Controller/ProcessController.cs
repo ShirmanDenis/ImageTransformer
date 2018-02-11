@@ -88,7 +88,6 @@ namespace Kontur.ImageTransformer.Controller
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
                 result = ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e));
             }
             return result;
