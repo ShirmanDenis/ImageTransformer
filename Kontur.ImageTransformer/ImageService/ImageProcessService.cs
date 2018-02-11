@@ -26,13 +26,21 @@ namespace Kontur.ImageTransformer.ImageService
                 throw new ArgumentNullException(nameof(image));
             if (filter == null)
                 throw new ArgumentNullException(nameof(filter));
+            try
+            {
+                var cropImage = image.Clone(scope, image.PixelFormat);
+                var success = filter.Filtrate(cropImage);
+                if (!success)
+                    throw new OperationCanceledException();
 
-            var cropImage = image.Clone(scope, image.PixelFormat);
-            var success = filter.Filtrate(cropImage);
-            if (!success)
-                throw new OperationCanceledException();
-
-            return cropImage;
+                return cropImage;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(scope);
+                Console.WriteLine(e);
+                throw;
+            }
         }
 
 

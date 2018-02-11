@@ -62,9 +62,9 @@ namespace Kontur.ImageTransformer.Controller
         {
             ResponseMessageResult result;
             try
-            {              
-                using (var requestStream = await Request.Content.ReadAsStreamAsync())
-                using (var imgFromRequest = new Bitmap(requestStream))
+            {
+                using (var ms = new MemoryStream(await Request.Content.ReadAsByteArrayAsync()))
+                using (var imgFromRequest = new Bitmap(ms))
                 {
                     var cropArea = _service.ToCropArea(imgFromRequest.Size, x, y, w, h);
                     if (cropArea == Rectangle.Empty)
@@ -88,6 +88,7 @@ namespace Kontur.ImageTransformer.Controller
             }
             catch (Exception e)
             {
+                Console.WriteLine(e);
                 result = ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e));
             }
             return result;
@@ -97,7 +98,7 @@ namespace Kontur.ImageTransformer.Controller
         {
             var contentLength = controllerContext.Request.Content.Headers.ContentLength;
             if (contentLength == null || contentLength > _service.Options.MaxImageSize)
-                return await Task.Factory.StartNew(() => new HttpResponseMessage(HttpStatusCode.BadRequest), cancellationToken);
+                return new HttpResponseMessage(HttpStatusCode.BadRequest);
             
             return await base.ExecuteAsync(controllerContext, cancellationToken);
         }
