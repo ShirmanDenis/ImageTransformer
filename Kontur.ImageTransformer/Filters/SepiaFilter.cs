@@ -16,9 +16,7 @@ namespace Kontur.ImageTransformer.Filters
         [DllImport("ImgProc.dll")]
         private static extern int Sepia(IntPtr imgData, int height, int width, int bytesPerPixel, int stride);
 
-        public IImageFilterParam[] Params { get; } = new IImageFilterParam[0];
-
-        public bool Filtrate(Bitmap img)
+        public bool Filtrate(Bitmap img, params object[] parameters)
         {
             if (img == null) throw new ArgumentNullException(nameof(img));
 
@@ -30,12 +28,6 @@ namespace Kontur.ImageTransformer.Filters
             img.UnlockBits(bitmapData);
 
             return result == 0;
-        }
-
-        public IImageFilterParam AddParam(object value)
-        {
-            // Nothing to do here
-            return null;
         }
     }
 }

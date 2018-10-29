@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,8 +13,6 @@ using System.Web.Http.Controllers;
 using Kontur.ImageTransformer.Filters;
 using Kontur.ImageTransformer.FiltersFactory;
 using Kontur.ImageTransformer.ImageService;
-using Kontur.ImageTransformer.ServerConfig;
-using NLog;
 
 namespace Kontur.ImageTransformer.Controller
 {
@@ -33,20 +28,25 @@ namespace Kontur.ImageTransformer.Controller
             _filtersFactory = filtersFactory;
         }
 
+        [Route("Lol")]
+        public async Task<string> GetLol()
+        {
+            return await Task.FromResult("xuy");
+        }
+
         [Route("threshold({value})/{x},{y},{w},{h}")]
         public async Task<IHttpActionResult> PostThreshold(int value, int x, int y, int w, int h)
         {
             var filter = _filtersFactory.GetFilter("threshold");
-            filter.AddParam(value);
 
-            return await ProcessAndSendAsync(filter, x, y, w, h);
+            return await ProcessAndSendAsync(filter, x, y, w, h, value);
         }
 
         [Route("sepia/{x},{y},{w},{h}")]
         public async Task<IHttpActionResult> PostSepia(int x, int y, int w, int h)
         {
             var filter = _filtersFactory.GetFilter("sepia");
-
+            
             return await ProcessAndSendAsync(filter, x, y, w, h);
         }
 
@@ -58,7 +58,7 @@ namespace Kontur.ImageTransformer.Controller
             return await ProcessAndSendAsync(filter, x, y, w, h);
         }
 
-        private async Task<IHttpActionResult> ProcessAndSendAsync(IImageFilter filter, int x, int y, int w, int h)
+        private async Task<IHttpActionResult> ProcessAndSendAsync(IImageFilter filter, int x, int y, int w, int h, params object[] filterParams)
         {
             ResponseMessageResult result;
             try
@@ -71,7 +71,7 @@ namespace Kontur.ImageTransformer.Controller
                         return ResponseMessage(Request.CreateResponse(HttpStatusCode.NoContent));
 
                     var responseImgStream = new MemoryStream();
-                    using (var processedImg = _service.Process(imgFromRequest, filter, cropArea))
+                    using (var processedImg = _service.Process(imgFromRequest, cropArea, filter, filterParams))
                         processedImg.Save(responseImgStream, ImageFormat.Png);
                     responseImgStream.Position = 0;
 

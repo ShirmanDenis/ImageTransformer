@@ -8,7 +8,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>Kontur.ImageTransformer</RootNamespace>
     <AssemblyName>Kontur.ImageTransformer</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <IsWebBootstrapper>false</IsWebBootstrapper>
@@ -26,6 +26,7 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -103,11 +104,9 @@
     <Compile Include="FiltersFactory\FiltersFactory.cs" />
     <Compile Include="FiltersFactory\IFiltersFactory.cs" />
     <Compile Include="Filters\GrayscaleFilter.cs" />
-    <Compile Include="Filters\IImageFilterParam.cs" />
     <Compile Include="Filters\IImageFilter.cs" />
     <Compile Include="Filters\SepiaFilter.cs" />
     <Compile Include="Filters\ThresholdFilter.cs" />
-    <Compile Include="Filters\ThresholdParam.cs" />
     <Compile Include="ImageService\IImageProcessService.cs" />
     <Compile Include="ImageService\ImageProcessService.cs" />
     <Compile Include="ImageService\ImageServiceOptions.cs" />

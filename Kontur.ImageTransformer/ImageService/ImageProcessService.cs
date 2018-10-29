@@ -1,13 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Kontur.ImageTransformer.Filters;
-using Kontur.ImageTransformer.FiltersFactory;
 
 namespace Kontur.ImageTransformer.ImageService
 {
@@ -20,7 +13,7 @@ namespace Kontur.ImageTransformer.ImageService
             Options = serviceOptions ?? new ImageServiceOptions();
         }
 
-        public Bitmap Process(Bitmap image, IImageFilter filter, Rectangle scope)
+        public Bitmap Process(Bitmap image, Rectangle scope, IImageFilter filter, params object[] filterParams)
         {
             if (image == null)
                 throw new ArgumentNullException(nameof(image));
@@ -28,7 +21,7 @@ namespace Kontur.ImageTransformer.ImageService
                 throw new ArgumentNullException(nameof(filter));
 
             var cropImage = image.Clone(scope, image.PixelFormat);
-            var success = filter.Filtrate(cropImage);
+            var success = filter.Filtrate(cropImage, filterParams);
             if (!success)
                 throw new OperationCanceledException();
 

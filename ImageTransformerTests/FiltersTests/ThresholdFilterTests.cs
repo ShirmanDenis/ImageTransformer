@@ -12,12 +12,6 @@ namespace ImageTransformerTests
     public class ThresholdFilterTests
     {
         private readonly ThresholdFilter _thresholdFilter = new ThresholdFilter();
-        private bool _cancel;
-        [TearDown]
-        public void TearDown()
-        {
-            _thresholdFilter.Params[0] = null;
-        }
 
         [Test]
         public void ThresholdFilter_ThrowArgumentNullException_WhenImageIsNull()
@@ -28,7 +22,7 @@ namespace ImageTransformerTests
         [Test]
         public void ThresholdFilter_ShouldThrowException_whenParameterNotAdded()
         {
-            Assert.Throws<Exception>(() => _thresholdFilter.Filtrate(Resources.AlphaImg), "Parameter is not setted");
+            Assert.Throws<ArgumentNullException>(() => _thresholdFilter.Filtrate(Resources.AlphaImg), "Parameter cannot be null");
         }
 
         [Test]
@@ -39,22 +33,11 @@ namespace ImageTransformerTests
         {
             var testImg = Resources.AlphaImg;
             var expectedPixelsArray = Helper.GetImagePixels(testImg).Select(c => Threshold(c, value));
-            _thresholdFilter.AddParam(value);
 
-            _thresholdFilter.Filtrate(testImg);
+            _thresholdFilter.Filtrate(testImg, value);
             var actualPixelsArray = Helper.GetImagePixels(testImg);
 
             CollectionAssert.AreEqual(expectedPixelsArray, actualPixelsArray);
-        }
-
-        [Test]
-        public void ThresholdFilter_AddParam_shouldReturn_Null()
-        {
-            var param = _thresholdFilter.AddParam(0);
-
-            param.Should().NotBeNull();
-            param.Should().BeOfType<ThresholdParam>();
-            _thresholdFilter.Params.Length.ShouldBeEquivalentTo(1);
         }
 
         private Color Threshold(Color pixel, int x)

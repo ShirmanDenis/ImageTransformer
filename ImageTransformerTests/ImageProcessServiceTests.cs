@@ -42,7 +42,7 @@ namespace ImageTransformerTests
             Assert.AreEqual(expected, cropArea);
             if (cropArea == Rectangle.Empty) return;
 
-            var cropImg = _service.Process(image, _filter, cropArea);
+            var cropImg = _service.Process(image, cropArea, _filter);
             Assert.AreEqual(expected.Size, cropImg.Size);
         }
     }

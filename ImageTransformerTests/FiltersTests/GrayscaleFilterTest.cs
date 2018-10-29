@@ -32,16 +32,6 @@ namespace ImageTransformerTests
 
             CollectionAssert.AreEqual(expectedPixelsArray, actualPixelsArray);
         }
-
-        [Test]
-        public void GrayscaleFilter_AddParam_shouldReturn_Null()
-        {
-            var param = _grayscaleFilter.AddParam(null);
-
-            param.Should().BeNull();
-
-            _grayscaleFilter.Params.Length.ShouldBeEquivalentTo(0);
-        }
         
         private Color Grayscale(Color color)
         {

@@ -37,16 +37,6 @@ namespace ImageTransformerTests
             CollectionAssert.AreEqual(expectedPixelsArray, actualPixelsArray);
         }
 
-        [Test]
-        public void SepiaFilter_AddParam_shouldReturn_Null()
-        {
-            var param = _filter.AddParam(0);
-
-            param.Should().BeNull();
-
-            _filter.Params.Length.ShouldBeEquivalentTo(0);
-        }
-
         private Color Sepia(Color pixel)
         {
             var R = (pixel.R * .393f) + (pixel.G * .769f) + (pixel.B * .189f);
