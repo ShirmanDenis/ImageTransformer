@@ -12,9 +12,9 @@ namespace Kontur.ImageTransformer.ActionFilters
             var controller = (Microsoft.AspNetCore.Mvc.Controller)context.Controller;
             var options = controller.HttpContext.RequestServices.GetService<ImageServiceOptions>();
             var request = controller.Request;
-            if (request.ContentLength == null || request.ContentLength > options.MaxImageSize)
+            if (request.ContentLength == null || request.ContentLength > options.MaxImageSize || request.ContentLength == 0)
             {
-                controller.Response.StatusCode = (int) HttpStatusCode.BadRequest;
+                context.Result = controller.BadRequest();
                 return;
             }
             base.OnActionExecuting(context);

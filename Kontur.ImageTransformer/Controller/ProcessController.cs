@@ -33,10 +33,12 @@ namespace Kontur.ImageTransformer.Controller
         [HttpPost]
         [Route("{*route}")]
         [ImageSizeLimit]
-        public IActionResult Process(string route, [ModelBinder(typeof(FilterModelBinder))]FilterModel filterModel)
+        public IActionResult Process(string route, FilterModel filterModel)
         {
             var filter = _filterResolver.Resolve(route);
-            
+            if (filter == null || filterModel == null)
+                return BadRequest();
+
             return ProcessAndSend(filter, filterModel.X, filterModel.Y, filterModel.W, filterModel.H, filterModel.FilterParams);
         }
 
