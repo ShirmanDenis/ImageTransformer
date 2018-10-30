@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Kontur.ImageTransformer.FiltersFactory;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace Kontur.ImageTransformer.Filters
+namespace Kontur.ImageTransformer.ImageFilters
 {
     public class FilterByRouteResolver : IFilterByRouteResolver
     {
@@ -20,7 +20,7 @@ namespace Kontur.ImageTransformer.Filters
         public void AddRouteValidator(string pattern)
         {
             var regex = new Regex(pattern);
-            if (regex.GetGroupNames().Contains("FilterName"))
+            if (!regex.GetGroupNames().Contains("FilterName"))
                 throw new FormatException("Pattern must contain a group with name \"FilterName\"");
             _routeValidators.Add(regex);
         }

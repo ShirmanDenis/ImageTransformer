@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Drawing;
-using Kontur.ImageTransformer.Filters;
+using Kontur.ImageTransformer.ImageFilters;
 
 namespace Kontur.ImageTransformer.ImageService
 {

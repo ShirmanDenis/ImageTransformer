@@ -1,4 +1,4 @@
-﻿using Kontur.ImageTransformer.Filters;
+﻿using Kontur.ImageTransformer.ImageFilters;
 
 namespace Kontur.ImageTransformer.FiltersFactory
 {

@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Kontur.ImageTransformer.Filters;
+using Kontur.ImageTransformer.ImageFilters;
 using Kontur.ImageTransformer.FiltersFactory;
 
 namespace Kontur.ImageTransformer.ImageService

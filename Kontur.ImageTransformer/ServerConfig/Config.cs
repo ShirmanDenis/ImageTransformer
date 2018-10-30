@@ -1,5 +1,5 @@
 ﻿using System.Reflection;
-using Kontur.ImageTransformer.Filters;
+using Kontur.ImageTransformer.ImageFilters;
 using Kontur.ImageTransformer.FiltersFactory;
 using Kontur.ImageTransformer.ImageService;
 using Microsoft.AspNetCore.Builder;

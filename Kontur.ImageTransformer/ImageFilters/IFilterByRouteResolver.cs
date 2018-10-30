@@ -1,4 +1,4 @@
-﻿namespace Kontur.ImageTransformer.Filters
+﻿namespace Kontur.ImageTransformer.ImageFilters
 {
     public interface IFilterByRouteResolver
     {

@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using FluentAssertions;
 using ImageTransformerTests.Properties;
-using Kontur.ImageTransformer.Filters;
+using Kontur.ImageTransformer.ImageFilters;
 using NUnit.Framework;
 
 namespace ImageTransformerTests

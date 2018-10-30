@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kontur.ImageTransformer.Filters
+namespace Kontur.ImageTransformer.ImageFilters
 {
     public class GrayscaleFilter : IImageFilter
     {

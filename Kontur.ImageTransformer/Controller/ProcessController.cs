@@ -5,7 +5,8 @@ using System.IO;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using Kontur.ImageTransformer.Filters;
+using Kontur.ImageTransformer.ActionFilters;
+using Kontur.ImageTransformer.ImageFilters;
 using Kontur.ImageTransformer.FiltersFactory;
 using Kontur.ImageTransformer.ImageService;
 using Kontur.ImageTransformer.ModelBinders;
@@ -30,11 +31,12 @@ namespace Kontur.ImageTransformer.Controller
         }
 
         [HttpPost]
-        [Route("{*filterWithParams}")]
+        [Route("{*route}")]
+        [ImageSizeLimit]
         public IActionResult Process(string route, [ModelBinder(typeof(FilterModelBinder))]FilterModel filterModel)
         {
             var filter = _filterResolver.Resolve(route);
-
+            
             return ProcessAndSend(filter, filterModel.X, filterModel.Y, filterModel.W, filterModel.H, filterModel.FilterParams);
         }
 
@@ -67,14 +69,5 @@ namespace Kontur.ImageTransformer.Controller
             }
             return result;
         }
-
-        //public override async Task<IActionResult> ExecuteAsync(HttpControllerContext controllerContext, CancellationToken cancellationToken)
-        //{
-        //    var contentLength = controllerContext.Request.Content.Headers.ContentLength;
-        //    if (contentLength == null || contentLength > _service.Options.MaxImageSize)
-        //        return new HttpResponseMessage(HttpStatusCode.BadRequest);
-            
-        //    return await base.ExecuteAsync(controllerContext, cancellationToken);
-        //}
     }
 }

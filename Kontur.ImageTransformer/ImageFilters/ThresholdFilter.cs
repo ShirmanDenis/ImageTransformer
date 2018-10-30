@@ -6,15 +6,14 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
-namespace Kontur.ImageTransformer.Filters
+namespace Kontur.ImageTransformer.ImageFilters
 {
-    public class SepiaFilter : IImageFilter
+    public class ThresholdFilter : IImageFilter
     {
         [DllImport("ImgProc.dll")]
-        private static extern int Sepia(IntPtr imgData, int height, int width, int bytesPerPixel, int stride);
+        private static extern int Threshold(IntPtr imgData, int value, int height, int width, int bytesPerPixel, int stride);
 
         public bool Filtrate(Bitmap img, params object[] parameters)
         {
@@ -23,8 +22,12 @@ namespace Kontur.ImageTransformer.Filters
             var bitmapData = img.LockBits(new Rectangle(0, 0, img.Width, img.Height), ImageLockMode.ReadWrite, img.PixelFormat);
             var bytesPerPixel = Image.GetPixelFormatSize(img.PixelFormat) / 8;
 
-            var result = Sepia(bitmapData.Scan0, img.Height, img.Width, bytesPerPixel, bitmapData.Stride);
+            var value = parameters.FirstOrDefault();
+            if (value == null)
+                throw new ArgumentNullException(nameof(parameters), "Parameter cannot be null");
             
+            var result = Threshold(bitmapData.Scan0, (int)value, img.Height, img.Width, bytesPerPixel, bitmapData.Stride);
+
             img.UnlockBits(bitmapData);
 
             return result == 0;

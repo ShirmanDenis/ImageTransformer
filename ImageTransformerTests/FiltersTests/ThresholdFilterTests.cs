@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Linq;
 using FluentAssertions;
 using ImageTransformerTests.Properties;
-using Kontur.ImageTransformer.Filters;
+using Kontur.ImageTransformer.ImageFilters;
 using NUnit.Framework;
 
 namespace ImageTransformerTests

@@ -3,7 +3,7 @@ using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace Kontur.ImageTransformer.Filters
+namespace Kontur.ImageTransformer.ImageFilters
 {
     public interface IImageFilter
     {
