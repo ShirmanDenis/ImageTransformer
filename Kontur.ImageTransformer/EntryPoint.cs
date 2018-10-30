@@ -1,6 +1,6 @@
-﻿using System;
-using System.Web.Http.SelfHost;
-using Kontur.ImageTransformer.ServerConfig;
+﻿using Kontur.ImageTransformer.ServerConfig;
+using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Hosting;
 
 namespace Kontur.ImageTransformer
 {
@@ -8,13 +8,11 @@ namespace Kontur.ImageTransformer
     {
         public static void Main(string[] args)
         {
-            var configuration = Config.Create("http://localhost:8080/");
-            using (var server = new HttpSelfHostServer(configuration))
-            {
-                server.OpenAsync();
-                Console.WriteLine("Press Enter to quit.");
-                Console.Read();
-            }
+            CreateWebHostBuilder(args).Build().Run();
         }
+
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+            WebHost.CreateDefaultBuilder(args)
+                .UseStartup<Config>();
     }
 }

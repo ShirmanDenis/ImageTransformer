@@ -3,103 +3,78 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Web.Http;
-using System.Web.Http.Results;
-using System.Web.Http.Controllers;
 using Kontur.ImageTransformer.Filters;
 using Kontur.ImageTransformer.FiltersFactory;
 using Kontur.ImageTransformer.ImageService;
+using Kontur.ImageTransformer.ModelBinders;
+using Kontur.ImageTransformer.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Net.Http.Headers;
 
 namespace Kontur.ImageTransformer.Controller
 {
-    [RoutePrefix("process")]
-    public class ProcessController : ApiController
+    [Route("process")]
+    public class ProcessController : Microsoft.AspNetCore.Mvc.Controller
     {
         private readonly IImageProcessService _service;
-        private readonly IFiltersFactory _filtersFactory;
+        private readonly IFilterByRouteResolver _filterResolver;
 
-        public ProcessController(IImageProcessService service, IFiltersFactory filtersFactory)
+        public ProcessController(
+            IImageProcessService service, 
+            IFilterByRouteResolver filterResolver)
         {
             _service = service;
-            _filtersFactory = filtersFactory;
+            _filterResolver = filterResolver;
         }
 
-        [Route("Lol")]
-        public async Task<string> GetLol()
+        [HttpPost]
+        [Route("{*filterWithParams}")]
+        public IActionResult Process(string route, [ModelBinder(typeof(FilterModelBinder))]FilterModel filterModel)
         {
-            return await Task.FromResult("xuy");
+            var filter = _filterResolver.Resolve(route);
+
+            return ProcessAndSend(filter, filterModel.X, filterModel.Y, filterModel.W, filterModel.H, filterModel.FilterParams);
         }
 
-        [Route("threshold({value})/{x},{y},{w},{h}")]
-        public async Task<IHttpActionResult> PostThreshold(int value, int x, int y, int w, int h)
+        private IActionResult ProcessAndSend(IImageFilter filter, int x, int y, int w, int h, params object[] filterParams)
         {
-            var filter = _filtersFactory.GetFilter("threshold");
-
-            return await ProcessAndSendAsync(filter, x, y, w, h, value);
-        }
-
-        [Route("sepia/{x},{y},{w},{h}")]
-        public async Task<IHttpActionResult> PostSepia(int x, int y, int w, int h)
-        {
-            var filter = _filtersFactory.GetFilter("sepia");
-            
-            return await ProcessAndSendAsync(filter, x, y, w, h);
-        }
-
-        [Route("grayscale/{x},{y},{w},{h}")]
-        public async Task<IHttpActionResult> PostGrayscale(int x, int y, int w, int h)
-        {
-            var filter = _filtersFactory.GetFilter("grayscale");
-
-            return await ProcessAndSendAsync(filter, x, y, w, h);
-        }
-
-        private async Task<IHttpActionResult> ProcessAndSendAsync(IImageFilter filter, int x, int y, int w, int h, params object[] filterParams)
-        {
-            ResponseMessageResult result;
+            IActionResult result;
             try
             {
-                using (var ms = new MemoryStream(await Request.Content.ReadAsByteArrayAsync()))
-                using (var imgFromRequest = new Bitmap(ms))
+                using (var imgFromRequest = new Bitmap(Request.Body))
                 {
                     var cropArea = _service.ToCropArea(imgFromRequest.Size, x, y, w, h);
                     if (cropArea == Rectangle.Empty)
-                        return ResponseMessage(Request.CreateResponse(HttpStatusCode.NoContent));
+                        return NoContent();
 
                     var responseImgStream = new MemoryStream();
                     using (var processedImg = _service.Process(imgFromRequest, cropArea, filter, filterParams))
                         processedImg.Save(responseImgStream, ImageFormat.Png);
                     responseImgStream.Position = 0;
 
-                    var response = Request.CreateResponse(HttpStatusCode.OK);
-                    response.Content = new StreamContent(responseImgStream);
-                    response.Content.Headers.ContentType = new MediaTypeHeaderValue("image/png");
-
-                    result = ResponseMessage(response);
+                    result = File(responseImgStream, "image/png");
                 }
             }
             catch (OperationCanceledException)
             {
-                result = ResponseMessage(Request.CreateResponse(429));
+                result = StatusCode(429);
             }
             catch (Exception e)
             {
-                result = ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e));
+                result = StatusCode(500);
             }
             return result;
         }
 
-        public override async Task<HttpResponseMessage> ExecuteAsync(HttpControllerContext controllerContext, CancellationToken cancellationToken)
-        {
-            var contentLength = controllerContext.Request.Content.Headers.ContentLength;
-            if (contentLength == null || contentLength > _service.Options.MaxImageSize)
-                return new HttpResponseMessage(HttpStatusCode.BadRequest);
+        //public override async Task<IActionResult> ExecuteAsync(HttpControllerContext controllerContext, CancellationToken cancellationToken)
+        //{
+        //    var contentLength = controllerContext.Request.Content.Headers.ContentLength;
+        //    if (contentLength == null || contentLength > _service.Options.MaxImageSize)
+        //        return new HttpResponseMessage(HttpStatusCode.BadRequest);
             
-            return await base.ExecuteAsync(controllerContext, cancellationToken);
-        }
+        //    return await base.ExecuteAsync(controllerContext, cancellationToken);
+        //}
     }
 }
