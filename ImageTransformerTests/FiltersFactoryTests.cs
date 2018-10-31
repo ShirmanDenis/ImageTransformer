@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Kontur.ImageTransformer.ImageFilters;
 using Kontur.ImageTransformer.FiltersFactory;
-using Moq;
 using NUnit.Framework;
 
 namespace ImageTransformerTests
@@ -15,19 +14,19 @@ namespace ImageTransformerTests
     public class FiltersFactoryTests
     {
         private FiltersFactory _factory;
-        private Mock<IImageFilter> _mockFilter;
+        private IImageFilter _mockFilter;
 
         [SetUp]
         public void Init()
         {
             _factory = new FiltersFactory();
-            _mockFilter = new Mock<IImageFilter>();
+            _mockFilter = new SepiaFilter();
         }
 
         [Test]
         public void IsRegistered_ShouldReturn_True_WhenFilterIsRegistered()
         {
-            _factory.RegisterFilter("grayscale", _mockFilter.Object);
+            _factory.RegisterFilter("grayscale", _mockFilter);
 
             _factory.IsRegistered("grayscale").Should().BeTrue();
         }
@@ -41,7 +40,7 @@ namespace ImageTransformerTests
         [Test]
         public void GetFilter_ShouldReturn_Filter_WhenFilterIsRegistered()
         {
-            _factory.RegisterFilter("grayscale", _mockFilter.Object);
+            _factory.RegisterFilter("grayscale", _mockFilter);
 
             var filter = _factory.GetFilter("grayscale");
 
@@ -52,18 +51,20 @@ namespace ImageTransformerTests
         public void GetFilter_ShouldThrowException_WhenFilterIsNotRegistered()
         {
             _factory.Invoking( f => f.GetFilter("grayscale"))
-                .ShouldThrow<Exception>()
+                .Should()
+                .Throw<Exception>()
                 .WithMessage("Filter with name \"grayscale\" is not registered");
         }
 
         [Test]
         public void DoubleRegisterFilter_Should_ThrowException()
         {
-            _factory.RegisterFilter("grayscale", _mockFilter.Object);
+            _factory.RegisterFilter("grayscale", _mockFilter);
 
             _factory
-                .Invoking(f => f.RegisterFilter("grayscale", _mockFilter.Object))
-                .ShouldThrow<Exception>()
+                .Invoking(f => f.RegisterFilter("grayscale", _mockFilter))
+                .Should()
+                .Throw<Exception>()
                 .WithMessage("Filter with name \"grayscale\" already registered");
         }
     }

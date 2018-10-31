@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
-using ImageTransformerTests.Properties;
 using Kontur.ImageTransformer.ImageFilters;
 using NUnit.Framework;
 

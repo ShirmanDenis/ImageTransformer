@@ -2,17 +2,11 @@
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Net;
-using System.Threading;
-using System.Threading.Tasks;
 using Kontur.ImageTransformer.ActionFilters;
 using Kontur.ImageTransformer.ImageFilters;
-using Kontur.ImageTransformer.FiltersFactory;
 using Kontur.ImageTransformer.ImageService;
-using Kontur.ImageTransformer.ModelBinders;
 using Kontur.ImageTransformer.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Net.Http.Headers;
 
 namespace Kontur.ImageTransformer.Controller
 {
@@ -23,7 +17,7 @@ namespace Kontur.ImageTransformer.Controller
         private readonly IFilterByRouteResolver _filterResolver;
 
         public ProcessController(
-            IImageProcessService service, 
+            IImageProcessService service,
             IFilterByRouteResolver filterResolver)
         {
             _service = service;
@@ -39,10 +33,12 @@ namespace Kontur.ImageTransformer.Controller
             if (filter == null || filterModel == null)
                 return BadRequest();
 
-            return ProcessAndSend(filter, filterModel.X, filterModel.Y, filterModel.W, filterModel.H, filterModel.FilterParams);
+            return ProcessAndSend(filter, filterModel.X, filterModel.Y, filterModel.W, filterModel.H,
+                filterModel.FilterParams);
         }
 
-        private IActionResult ProcessAndSend(IImageFilter filter, int x, int y, int w, int h, params object[] filterParams)
+        private IActionResult ProcessAndSend(IImageFilter filter, int x, int y, int w, int h,
+            params object[] filterParams)
         {
             IActionResult result;
             try
@@ -69,6 +65,7 @@ namespace Kontur.ImageTransformer.Controller
             {
                 result = StatusCode(500);
             }
+
             return result;
         }
     }

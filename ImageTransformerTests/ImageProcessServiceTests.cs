@@ -4,7 +4,6 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ImageTransformerTests.Properties;
 using Kontur.ImageTransformer.ImageFilters;
 using Kontur.ImageTransformer.ImageService;
 using NUnit.Framework;

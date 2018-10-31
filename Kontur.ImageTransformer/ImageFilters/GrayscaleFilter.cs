@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Kontur.ImageTransformer.ImageFilters
 {
@@ -19,7 +14,8 @@ namespace Kontur.ImageTransformer.ImageFilters
         {
             if (img == null) throw new ArgumentNullException(nameof(img));
 
-            var bitmapData = img.LockBits(new Rectangle(0, 0, img.Width, img.Height), ImageLockMode.ReadWrite, img.PixelFormat);
+            var bitmapData = img.LockBits(new Rectangle(0, 0, img.Width, img.Height), ImageLockMode.ReadWrite,
+                img.PixelFormat);
             var bytesPerPixel = Image.GetPixelFormatSize(img.PixelFormat) / 8;
 
             var result = Grayscale(bitmapData.Scan0, img.Height, img.Width, bytesPerPixel, bitmapData.Stride);

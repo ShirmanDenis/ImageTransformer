@@ -8,7 +8,6 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 using FluentAssertions;
-using ImageTransformerTests.Properties;
 using Kontur.ImageTransformer.ImageFilters;
 using NUnit.Framework;
 

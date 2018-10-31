@@ -3,11 +3,10 @@ using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using System.Web.Http.SelfHost;
 using FluentAssertions;
-using ImageTransformerTests.Properties;
 using Kontur.ImageTransformer;
 using Kontur.ImageTransformer.ServerConfig;
+using Microsoft.AspNetCore.Mvc.Testing;
 using NUnit.Framework;
 
 namespace ImageTransformerTests
@@ -17,9 +16,9 @@ namespace ImageTransformerTests
     {
         private const string Prefix = "http://localhost:8080";
         private byte[] _imgData;
-      
-        private readonly HttpClient _client = new HttpClient();
 
+        private HttpClient _client;
+        private readonly WebApplicationFactory<Config> _factory = new WebApplicationFactory<Config>();
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
@@ -27,18 +26,7 @@ namespace ImageTransformerTests
             Resources.AlphaImg.Save(imgStream, ImageFormat.Png);
             imgStream.Position = 0;
             _imgData = imgStream.ToArray();
-        }
-
-        [OneTimeSetUp]
-        public void SetUp()
-        {
-
-        }
-
-        [OneTimeTearDown]
-        public void TearDown()
-        {
-
+            _client = _factory.CreateClient();
         }
 
         [Test]
@@ -53,7 +41,7 @@ namespace ImageTransformerTests
         {
             var response = await _client.PostAsync(Prefix + uri, new ByteArrayContent(_imgData));
 
-            response.StatusCode.ShouldBeEquivalentTo(HttpStatusCode.OK);
+            response.StatusCode.Should().BeEquivalentTo(HttpStatusCode.OK);
         }
 
         [TestCase("/process/sepi/-5,5,20,20")]
@@ -71,7 +59,7 @@ namespace ImageTransformerTests
         {
             var response = await _client.PostAsync(Prefix + uri, new ByteArrayContent(_imgData));
 
-            response.StatusCode.ShouldBeEquivalentTo(HttpStatusCode.BadRequest);
+            response.StatusCode.Should().BeEquivalentTo(HttpStatusCode.BadRequest);
         }
 
         [Test]
@@ -87,7 +75,7 @@ namespace ImageTransformerTests
         {
             var response = await _client.PostAsync(Prefix + uri, new ByteArrayContent(_imgData));
 
-            response.StatusCode.ShouldBeEquivalentTo(HttpStatusCode.BadRequest);
+            response.StatusCode.Should().BeEquivalentTo(HttpStatusCode.BadRequest);
         }
 
         [Test]
@@ -108,7 +96,7 @@ namespace ImageTransformerTests
         {
             var response = await _client.PostAsync(Prefix + uri, new ByteArrayContent(_imgData));
 
-            response.StatusCode.ShouldBeEquivalentTo(HttpStatusCode.NoContent);
+            response.StatusCode.Should().BeEquivalentTo(HttpStatusCode.NoContent);
         }
 
         [Test]
@@ -130,7 +118,7 @@ namespace ImageTransformerTests
             imgStream.Position = 0;
             var response = await _client.PostAsync(Prefix + uri, new StreamContent(imgStream));
 
-            response.StatusCode.ShouldBeEquivalentTo(HttpStatusCode.BadRequest);
+            response.StatusCode.Should().BeEquivalentTo(HttpStatusCode.BadRequest);
         }
     }
 }
