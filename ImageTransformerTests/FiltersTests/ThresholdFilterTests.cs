@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Drawing;
 using System.Linq;
-using FluentAssertions;
 using Kontur.ImageTransformer.ImageFilters;
 using NUnit.Framework;
 
-namespace ImageTransformerTests
+namespace ImageTransformerTests.FiltersTests
 {
     [TestFixture]
     public class ThresholdFilterTests
