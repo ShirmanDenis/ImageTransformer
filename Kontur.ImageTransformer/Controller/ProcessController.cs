@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Kontur.ImageTransformer.Controller
 {
     [Route("process")]
-    public class ProcessController : Microsoft.AspNetCore.Mvc.Controller
+    public class ProcessController : ControllerBase
     {
         private readonly IImageProcessService _service;
         private readonly IFilterByRouteResolver _filterResolver;
@@ -61,7 +61,7 @@ namespace Kontur.ImageTransformer.Controller
             {
                 result = StatusCode(429);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 result = StatusCode(500);
             }

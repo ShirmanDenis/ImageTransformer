@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2020
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28922.388
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kontur.ImageTransformer", "Kontur.ImageTransformer\Kontur.ImageTransformer.csproj", "{9801585B-D1AA-4078-B9C4-7B7F8883E55E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageTransformerTests", "ImageTransformerTests\ImageTransformerTests.csproj", "{41852CBB-1B67-4187-B8B4-0C230E380501}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageTransformerTests", "ImageTransformerTests\ImageTransformerTests.csproj", "{41852CBB-1B67-4187-B8B4-0C230E380501}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageTransform.Monitoring", "ImageTransform.Monitoring\ImageTransform.Monitoring.csproj", "{EF347F85-1EDA-4016-8D65-4F5E7C7BE59E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +43,18 @@ Global
 		{41852CBB-1B67-4187-B8B4-0C230E380501}.unsafe|Any CPU.Build.0 = Release|Any CPU
 		{41852CBB-1B67-4187-B8B4-0C230E380501}.unsafe|x64.ActiveCfg = Release|Any CPU
 		{41852CBB-1B67-4187-B8B4-0C230E380501}.unsafe|x64.Build.0 = Release|Any CPU
+		{EF347F85-1EDA-4016-8D65-4F5E7C7BE59E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF347F85-1EDA-4016-8D65-4F5E7C7BE59E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF347F85-1EDA-4016-8D65-4F5E7C7BE59E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{EF347F85-1EDA-4016-8D65-4F5E7C7BE59E}.Debug|x64.Build.0 = Debug|Any CPU
+		{EF347F85-1EDA-4016-8D65-4F5E7C7BE59E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF347F85-1EDA-4016-8D65-4F5E7C7BE59E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF347F85-1EDA-4016-8D65-4F5E7C7BE59E}.Release|x64.ActiveCfg = Release|Any CPU
+		{EF347F85-1EDA-4016-8D65-4F5E7C7BE59E}.Release|x64.Build.0 = Release|Any CPU
+		{EF347F85-1EDA-4016-8D65-4F5E7C7BE59E}.unsafe|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF347F85-1EDA-4016-8D65-4F5E7C7BE59E}.unsafe|Any CPU.Build.0 = Debug|Any CPU
+		{EF347F85-1EDA-4016-8D65-4F5E7C7BE59E}.unsafe|x64.ActiveCfg = Debug|Any CPU
+		{EF347F85-1EDA-4016-8D65-4F5E7C7BE59E}.unsafe|x64.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

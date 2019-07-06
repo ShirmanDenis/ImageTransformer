@@ -33,15 +33,8 @@ namespace Kontur.ImageTransformer.ServerConfig
                 });
             services.AddSingleton<ImageServiceOptions>();
             services.AddSingleton<IImageProcessService, ImageProcessService>();
-            services.AddSingleton<IFilterByRouteResolver>(sp =>
-            {
-                var resolver = new FilterByRouteResolver(sp.GetService<IFiltersFactory>());
-                resolver.AddRouteValidator(@"(?<FilterName>threshold\([0-9]{1-3}\))");
-                resolver.AddRouteValidator(@"(?<FilterName>sepia)");
-                resolver.AddRouteValidator(@"(?<FilterName>grayscale)");
-                return resolver;
-            });
-            services.AddSingleton<IFiltersFactory>(sp =>
+
+            services.AddSingleton<IFiltersFactory>(_ =>
             {
                 var factory = new FiltersFactory.FiltersFactory();
                 factory.RegisterFilter("threshold", new ThresholdFilter());
@@ -49,6 +42,16 @@ namespace Kontur.ImageTransformer.ServerConfig
                 factory.RegisterFilter("grayscale", new GrayscaleFilter());
                 return factory;
             });
+
+            var sp = services.BuildServiceProvider();
+            var resolver = new FilterByRouteResolver(sp.GetService<IFiltersFactory>());
+            resolver.AddRouteValidator(@"(?<FilterName>threshold)\((?<params>[0-9]{1,3})\)");
+            resolver.AddRouteValidator(@"(?<FilterName>sepia)");
+            resolver.AddRouteValidator(@"(?<FilterName>grayscale)");
+
+            services.AddSingleton<IFilterByRouteResolver>(resolver);
+            services.AddSingleton<IParamsFromRouteExtractor>(resolver);
+
 
         }
 

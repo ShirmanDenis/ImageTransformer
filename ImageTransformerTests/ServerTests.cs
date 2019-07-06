@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Kontur.ImageTransformer;
@@ -27,6 +28,7 @@ namespace ImageTransformerTests
             imgStream.Position = 0;
             _imgData = imgStream.ToArray();
             _client = _factory.CreateClient();
+   
         }
 
         [Test]
@@ -39,8 +41,11 @@ namespace ImageTransformerTests
         [TestCase("/process/threshold(99)/1,1,50,50")]
         public async Task Server_shouldReturn200OK_WhenCorrectRequestUri(string uri)
         {
-            var response = await _client.PostAsync(Prefix + uri, new ByteArrayContent(_imgData));
-
+            _client.DefaultRequestHeaders.Add(HttpRequestHeader.ContentType.ToString(), "application/octet-stream");
+            var content = new ByteArrayContent(_imgData);
+            content.Headers.ContentLength = _imgData.Length;
+            var response = await _client.PostAsync(Prefix + uri, content);
+            
             response.StatusCode.Should().BeEquivalentTo(HttpStatusCode.OK);
         }
 
@@ -94,7 +99,9 @@ namespace ImageTransformerTests
         [TestCase("/process/threshold(0)/0,0,-271,-304")]
         public async Task Server_shouldReturn204NoContent_whenIntersectionOfTheRectangleWithTheImageIsEmpty(string uri)
         {
-            var response = await _client.PostAsync(Prefix + uri, new ByteArrayContent(_imgData));
+            var content = new ByteArrayContent(_imgData);
+            content.Headers.ContentLength = _imgData.Length;
+            var response = await _client.PostAsync(Prefix + uri, content);
 
             response.StatusCode.Should().BeEquivalentTo(HttpStatusCode.NoContent);
         }

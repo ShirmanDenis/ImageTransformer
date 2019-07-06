@@ -1,7 +1,9 @@
-﻿namespace Kontur.ImageTransformer.ImageFilters
+﻿using JetBrains.Annotations;
+
+namespace Kontur.ImageTransformer.ImageFilters
 {
     public interface IFilterByRouteResolver
     {
-        IImageFilter Resolve(string route);
+        IImageFilter Resolve([NotNull] string route);
     }
 }

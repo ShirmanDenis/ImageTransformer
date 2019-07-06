@@ -1,28 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Collections.Concurrent;
 using Kontur.ImageTransformer.ImageFilters;
 
 namespace Kontur.ImageTransformer.FiltersFactory
 {
     public class FiltersFactory : IFiltersFactory
     {
-        private readonly Dictionary<string, IImageFilter> _filtersCache = new Dictionary<string, IImageFilter>();
+        private readonly ConcurrentDictionary<string, IImageFilter> _filtersCache = new ConcurrentDictionary<string, IImageFilter>();
 
         public void RegisterFilter(string name, IImageFilter filter)
         {
             if (IsRegistered(name))
                 throw new Exception($"Filter with name \"{name}\" already registered");
 
-            _filtersCache.Add(name, filter);
+            _filtersCache.AddOrUpdate(name, filter, (s, imageFilter) => imageFilter);
+            _filtersCache.TryAdd(name, filter);
         }
 
         public IImageFilter GetFilter(string name)
         {
-            if (!_filtersCache.TryGetValue(name, out IImageFilter filter))
+            if (!_filtersCache.TryGetValue(name, out var filter))
                throw new Exception($"Filter with name \"{name}\" is not registered");
 
             return filter;
