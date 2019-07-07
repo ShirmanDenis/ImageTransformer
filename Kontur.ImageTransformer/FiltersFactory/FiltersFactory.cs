@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Linq;
 using Kontur.ImageTransformer.ImageFilters;
 
 namespace Kontur.ImageTransformer.FiltersFactory
@@ -23,6 +24,11 @@ namespace Kontur.ImageTransformer.FiltersFactory
                throw new Exception($"Filter with name \"{name}\" is not registered");
 
             return filter;
+        }
+
+        public IImageFilter[] GetRegisteredFilters()
+        {
+            return _filtersCache.Values.ToArray();
         }
 
         public bool IsRegistered(string name) 

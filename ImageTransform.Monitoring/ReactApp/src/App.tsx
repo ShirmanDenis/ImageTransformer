@@ -1,15 +1,17 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
 import './App.css';
 import Axios from 'axios';
-
+import { ComboBox } from "./Components/ComboBox";
+import { FileLoader } from "./Components/FileLoader";
 export class App extends Component<any, any> {
+  private currentFilter: any;
+
   constructor(props: Readonly<{}>) {
     super(props);
-    this.state = { data: "not_yet" }
+    this.state = { data: [] }
   }
   componentDidMount() {
-    Axios.get("api/test")
+    Axios.get("api/filters")
       .then(response => {
         this.setState({ data: response.data })
       })
@@ -24,8 +26,8 @@ export class App extends Component<any, any> {
           Это хедер
         </header>
         <div>
-          Контент
-          {this.state.data}
+          <ComboBox title={this.state.data[0]} elements={this.state.data}/>
+          <FileLoader/>
         </div>
         <footer>
           Это футер

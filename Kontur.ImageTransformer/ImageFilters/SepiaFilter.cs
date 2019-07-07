@@ -16,6 +16,8 @@ namespace Kontur.ImageTransformer.ImageFilters
         [DllImport("ImgProc.dll")]
         private static extern int Sepia(IntPtr imgData, int height, int width, int bytesPerPixel, int stride);
 
+        public string Name { get; } = "Sepia";
+
         public bool Filtrate(Bitmap img, params object[] parameters)
         {
             if (img == null) throw new ArgumentNullException(nameof(img));

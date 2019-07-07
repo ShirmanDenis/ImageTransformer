@@ -1,0 +1,16 @@
+﻿2019-07-07 12:47:08,950 INFO  Received request /api/filters
+2019-07-07 12:47:19,784 INFO  Received request /api/filters
+2019-07-07 13:03:10,909 INFO  Received request /api/filters
+2019-07-07 13:04:04,016 INFO  Received request /api/filters
+2019-07-07 13:04:04,824 INFO  Received request /api/filters
+2019-07-07 13:04:46,793 INFO  Received request /api/filters
+2019-07-07 13:06:05,974 INFO  Received request /api/filters
+2019-07-07 13:06:47,730 INFO  Received request /api/filters
+2019-07-07 13:07:45,236 INFO  Received request /api/filters
+2019-07-07 13:10:10,168 INFO  Received request /api/filters
+2019-07-07 13:12:39,024 INFO  Received request /api/filters
+2019-07-07 13:16:07,055 INFO  Received request /api/filters
+2019-07-07 13:24:54,658 INFO  Received request /api/filters
+2019-07-07 13:35:25,713 INFO  Received request /api/filters
+2019-07-07 13:36:38,017 INFO  Received request /api/filters
+2019-07-07 13:40:33,787 INFO  Received request /api/filters

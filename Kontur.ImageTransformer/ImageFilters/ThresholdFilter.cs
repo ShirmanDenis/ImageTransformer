@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using NLog;
 
 namespace Kontur.ImageTransformer.ImageFilters
@@ -16,6 +12,8 @@ namespace Kontur.ImageTransformer.ImageFilters
         private readonly Logger log = LogManager.GetCurrentClassLogger();
         [DllImport("ImgProc.dll")]
         private static extern int Threshold(IntPtr imgData, int value, int height, int width, int bytesPerPixel, int stride);
+
+        public string Name { get; } = "Threshold";
 
         public bool Filtrate(Bitmap img, params object[] parameters)
         {

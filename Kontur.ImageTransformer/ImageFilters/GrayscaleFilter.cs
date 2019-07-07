@@ -10,6 +10,8 @@ namespace Kontur.ImageTransformer.ImageFilters
         [DllImport("ImgProc.dll")]
         private static extern int Grayscale(IntPtr imgData, int height, int width, int bytesPerPixel, int stride);
 
+        public string Name { get; } = "Grayscale";
+
         public bool Filtrate(Bitmap img, params object[] parameters)
         {
             if (img == null) throw new ArgumentNullException(nameof(img));

@@ -9,13 +9,20 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
+    <PackageReference Include="Vostok.Logging.File" Version="1.0.2" />
   </ItemGroup>
 
 
   <ItemGroup>
     <Folder Include="Models\" />
-    <Folder Include="Settings\" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\ImageTransfom.Client\ImageTransform.Client.csproj" />
+    <ProjectReference Include="..\Kontur.ImageTransformer\Kontur.ImageTransformer.csproj" />
   </ItemGroup>
 
 </Project>

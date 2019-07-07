@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kontur.ImageTransformer", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageTransformerTests", "ImageTransformerTests\ImageTransformerTests.csproj", "{41852CBB-1B67-4187-B8B4-0C230E380501}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageTransform.Monitoring", "ImageTransform.Monitoring\ImageTransform.Monitoring.csproj", "{EF347F85-1EDA-4016-8D65-4F5E7C7BE59E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageTransform.Monitoring", "ImageTransform.Monitoring\ImageTransform.Monitoring.csproj", "{EF347F85-1EDA-4016-8D65-4F5E7C7BE59E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageTransform.Client", "ImageTransfom.Client\ImageTransform.Client.csproj", "{EB7BC531-EB19-4218-AEAD-49311F0C919F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,6 +57,18 @@ Global
 		{EF347F85-1EDA-4016-8D65-4F5E7C7BE59E}.unsafe|Any CPU.Build.0 = Debug|Any CPU
 		{EF347F85-1EDA-4016-8D65-4F5E7C7BE59E}.unsafe|x64.ActiveCfg = Debug|Any CPU
 		{EF347F85-1EDA-4016-8D65-4F5E7C7BE59E}.unsafe|x64.Build.0 = Debug|Any CPU
+		{EB7BC531-EB19-4218-AEAD-49311F0C919F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB7BC531-EB19-4218-AEAD-49311F0C919F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB7BC531-EB19-4218-AEAD-49311F0C919F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{EB7BC531-EB19-4218-AEAD-49311F0C919F}.Debug|x64.Build.0 = Debug|Any CPU
+		{EB7BC531-EB19-4218-AEAD-49311F0C919F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB7BC531-EB19-4218-AEAD-49311F0C919F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB7BC531-EB19-4218-AEAD-49311F0C919F}.Release|x64.ActiveCfg = Release|Any CPU
+		{EB7BC531-EB19-4218-AEAD-49311F0C919F}.Release|x64.Build.0 = Release|Any CPU
+		{EB7BC531-EB19-4218-AEAD-49311F0C919F}.unsafe|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB7BC531-EB19-4218-AEAD-49311F0C919F}.unsafe|Any CPU.Build.0 = Debug|Any CPU
+		{EB7BC531-EB19-4218-AEAD-49311F0C919F}.unsafe|x64.ActiveCfg = Debug|Any CPU
+		{EB7BC531-EB19-4218-AEAD-49311F0C919F}.unsafe|x64.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
