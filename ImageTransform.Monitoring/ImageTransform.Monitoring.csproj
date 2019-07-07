@@ -16,11 +16,6 @@
 
 
   <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
-
-
-  <ItemGroup>
     <ProjectReference Include="..\ImageTransfom.Client\ImageTransform.Client.csproj" />
     <ProjectReference Include="..\Kontur.ImageTransformer\Kontur.ImageTransformer.csproj" />
   </ItemGroup>

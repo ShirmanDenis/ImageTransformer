@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
+import { IRootProvider } from '../Models/IRootStore';
+import { RootStore } from '../Stores/RootStore';
 
 interface IComboBoxProps {
     title?: string;
+    root: RootStore;
     elements: any[];
     onClick?: any;
 }
@@ -14,6 +17,7 @@ export class ComboBox extends Component<IComboBoxProps, any> {
     }
     onElemClick(c: Component<IComboBoxProps, any>, e: React.MouseEvent<HTMLAnchorElement, MouseEvent>){
         const content = e.currentTarget.innerHTML;
+        this.props.root.setFilterName(content);
         c.setState({currentElement: content});
     }
     render() {

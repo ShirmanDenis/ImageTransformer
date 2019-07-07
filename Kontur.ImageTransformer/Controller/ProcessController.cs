@@ -30,8 +30,10 @@ namespace Kontur.ImageTransformer.Controller
         public IActionResult Process(string route, FilterModel filterModel)
         {
             var filter = _filterResolver.Resolve(route);
-            if (filter == null || filterModel == null)
-                return BadRequest();
+            if (filter == null)
+                return BadRequest("Can't resolve filter name");
+            if (filterModel == null)
+                return BadRequest("Filter model is null");
 
             return ProcessAndSend(filter, filterModel.X, filterModel.Y, filterModel.W, filterModel.H,
                 filterModel.FilterParams);

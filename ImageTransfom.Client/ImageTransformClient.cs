@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -27,6 +29,15 @@ namespace ImageTransform.Client
             var response = await _httpClient
                 .GetAsync(ApiUris.GetRegisteredFilters, timeout.HasValue ? TimeOut(timeout.Value) : CancellationToken.None);
             return await PrepareResponse<IEnumerable<string>>(response);
+        }
+
+        public async Task<OperationResult<byte[]>> FiltrateImage(byte[] imageBytes, string filter, Rectangle rect, params object[] @params)
+        {
+            var content = new ByteArrayContent(imageBytes);
+            content.Headers.ContentLength = imageBytes.Length;
+            content.Headers.ContentType = MediaTypeHeaderValue.Parse("octet/stream");
+            var response = await _httpClient.PostAsync(ApiUris.ProcessImage(filter, rect), content);
+            return await PrepareResponse<byte[]>(response);
         }
 
         private async Task<OperationResult<T>> PrepareResponse<T>(HttpResponseMessage response)
