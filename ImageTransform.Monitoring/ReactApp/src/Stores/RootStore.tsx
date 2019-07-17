@@ -1,16 +1,16 @@
 
 export class RootStore{
     constructor(){
-        this.FilePath = "";
+        this.FileData = "";
         this.FilterName = "";
         this.Params = [];
     }
-    public FilePath: string;
+    public FileData: String;
     public FilterName: string;
     public Params: any[];
 
-    public setFileData(data: string){
-        this.FilePath = data;
+    public setFileData(data: String){
+        this.FileData = data;
     }
 
     public setFilterName(filterName: string){

@@ -12,6 +12,7 @@ export class App extends Component<IRootProvider, any> {
     super(props);
     this.state = { data: [] }
     this.onButtonCLick = this.onButtonCLick.bind(this);
+    this.onImageChoosen = this.onImageChoosen.bind(this);
   }
   componentDidMount() {
     Axios.get("api/filters")
@@ -23,26 +24,32 @@ export class App extends Component<IRootProvider, any> {
       })
   }
   onButtonCLick() {
-    Axios
-    .post("api/filtrate", {
+    const json = JSON.stringify({
       FilterName: this.props.Root.FilterName,
-      ImgData: this.props.Root.FilePath
-    }, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }
-    )
-    .then(response => {
-      const data = response.data;
-      const workSpace = document.getElementById("work_space") as HTMLElement;
-      const img = document.createElement("img") as HTMLImageElement;
-      img.src = data;
-      workSpace.appendChild(img)
-    })
+      ImgData: btoa(this.props.Root.FileData.toString())
+    });
+    Axios
+      .post("api/filtrate", json, {
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        }
+      })
+      .then(response => {
+        const data = response.data;
+        const workSpace = document.getElementById("filtered_img") as HTMLElement;
+        const img = document.createElement("img") as HTMLImageElement;
+        img.src = `data:image/png;base64, ${data}`; 
+        workSpace.appendChild(img);
+      })
     .catch(error => {
       console.log(error);
     });
+  }
+  private onImageChoosen(){
+    const workSpace = document.getElementById("loaded_img") as HTMLElement;
+    const img = document.createElement("img") as HTMLImageElement;
+    img.src = `data:image/png;base64, ${btoa(this.props.Root.FileData.toString())}`; 
+    workSpace.appendChild(img);
   }
   public render() {
     return (
@@ -50,10 +57,12 @@ export class App extends Component<IRootProvider, any> {
         <header>
           Это хедер
         </header>
-        <div id="work_space">
+        <div>
           <ComboBox root={this.props.Root} title={this.state.data[0]} elements={this.state.data}/>
-          <FileLoader Root={this.props.Root}/>
+          <FileLoader root={this.props.Root} onLoaded={this.onImageChoosen}/>
+          <div id="loaded_img"></div>
           <button onClick={this.onButtonCLick}>Обработка</button>
+          <div id="filtered_img"></div>
         </div>
         <footer>
           Это футер

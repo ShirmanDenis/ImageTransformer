@@ -19,7 +19,7 @@ namespace Kontur.ImageTransformer.Controller
         [Route("defined/filters")]
         public IEnumerable<string> GetDefinedFilters()
         {
-            return _filtersFactory.GetRegisteredFilters().Select(f => f.Name);
+            return _filtersFactory.GetRegisteredFilters().Select(f => f.Name.ToLower());
         }
     }
 }

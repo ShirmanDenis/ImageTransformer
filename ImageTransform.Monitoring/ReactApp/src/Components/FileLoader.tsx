@@ -1,21 +1,28 @@
 import React, { Component } from 'react';
-import { IRootProvider } from '../Models/IRootStore';
-import Axios from 'axios';
+import { RootStore } from '../Stores/RootStore';
 
+interface IFileLoaderProps {
+    root: RootStore;
+    onLoaded?: () => void;
+}
 
-export class FileLoader extends Component<IRootProvider, any>{
-    constructor(props: IRootProvider){
+export class FileLoader extends Component<IFileLoaderProps, any>{
+    constructor(props: IFileLoaderProps){
         super(props);
         this.onChange = this.onChange.bind(this);
     }
     
-    onChange(c: Component<IRootProvider, any>, e: React.ChangeEvent<HTMLInputElement>){
+    onChange(c: Component<IFileLoaderProps, any>, e: React.ChangeEvent<HTMLInputElement>){
         if (e.currentTarget.files === null) return;
         const curFile =  e.currentTarget.files[0];
         const fileReader= new FileReader();
         fileReader.readAsBinaryString(curFile);
         fileReader.onloadend = () => {
-            c.props.Root.setFileData(fileReader.result as string);
+            console.log(curFile.size);
+            const s = fileReader.result as String;
+            c.props.root.setFileData(s);
+            if (this.props.onLoaded)
+                this.props.onLoaded();
         }
     }
 

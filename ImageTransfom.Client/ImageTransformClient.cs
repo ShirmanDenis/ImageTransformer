@@ -37,7 +37,9 @@ namespace ImageTransform.Client
             content.Headers.ContentLength = imageBytes.Length;
             content.Headers.ContentType = MediaTypeHeaderValue.Parse("octet/stream");
             var response = await _httpClient.PostAsync(ApiUris.ProcessImage(filter, rect), content);
-            return await PrepareResponse<byte[]>(response);
+            var binary = await response.Content.ReadAsByteArrayAsync()
+                .ConfigureAwait(false);
+            return OperationResult<byte[]>.CreateOk(binary);
         }
 
         private async Task<OperationResult<T>> PrepareResponse<T>(HttpResponseMessage response)
@@ -46,7 +48,8 @@ namespace ImageTransform.Client
                 return OperationResult<T>.CreateFailed($"Failed with code {response.StatusCode}, reason is {response.ReasonPhrase}");
             try
             {
-                var json = await response.Content.ReadAsStringAsync();
+                var json = await response.Content.ReadAsStringAsync()
+                    .ConfigureAwait(false);
                 return !TryDeserialize<T>(json, out var model, out var error) ? 
                     OperationResult<T>.CreateFailed(error) : 
                     OperationResult<T>.CreateOk(model);

@@ -9,7 +9,7 @@ namespace ImageTransform.Client
 
         public static Uri ProcessImage(string filterName, Rectangle rect)
         {
-            return new Uri($"process/{filterName}?x={rect.X}&y={rect.Y}&w={rect.Width}&h={rect.Height}", UriKind.Relative);
+            return new Uri($"process/{filterName}/{rect.X},{rect.Y},{rect.Width},{rect.Height}", UriKind.Relative);
         }
     }
 }
