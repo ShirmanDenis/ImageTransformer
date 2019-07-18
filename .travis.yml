@@ -1,4 +1,3 @@
-os: windows
 language: csharp
 solution: Kontur.ImageTransformer.sln
 install:
