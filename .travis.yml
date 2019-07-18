@@ -1,8 +1,8 @@
 language: csharp
 solution: Kontur.ImageTransformer.sln
 install:
-  - nuget restore solution-name.sln
+  - nuget Kontur.ImageTransformer.sln
   - nuget install NUnit.Console -Version 3.9.0 -OutputDirectory testrunner
 script:
   - msbuild /p:Configuration=Release solution-name.sln
-  - mono ./testrunner/NUnit.ConsoleRunner.3.9.0/tools/nunit3-console.exe ./ImageTransformerTests/bin/Release/MyProject.Tests.dll
+  - mono ./testrunner/NUnit.ConsoleRunner.3.9.0/tools/nunit3-console.exe ./ImageTransformerTests/bin/Release/netcoreapp2.1/ImageTransformerTests.dll
