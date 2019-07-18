@@ -6,6 +6,9 @@ before-install:
   - sudo apt install libc6-dev 
   - sudo apt install libgdiplus
 solution: Kontur.ImageTransformer.sln
+before-script:
+  - cd /usr/lib
+  - sudo ln -s libgdiplus.so gdiplus.dll
 script:
   - dotnet restore
   - dotnet test
