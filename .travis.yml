@@ -7,6 +7,8 @@ before_install:
   - sudo apt-get install libc6-dev 
   - sudo apt-get install libgdiplus
 script:
+  - dotnet build -c Release
   - ls -R
+  - cp ./ImgProc.dll ./ImageTransformerTests/bin/Debug/netcoreapp2.1
   - dotnet restore
   - dotnet test
