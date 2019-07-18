@@ -7,5 +7,6 @@ before_install:
   - sudo apt-get install libc6-dev 
   - sudo apt-get install libgdiplus
 script:
+  - ls -R
   - dotnet restore
   - dotnet test
