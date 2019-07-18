@@ -1,7 +1,10 @@
-os: windows
+dist: xenial
 mono: none
 language: csharp
 solution: Kontur.ImageTransformer.sln
+before-install:
+ - sudo apt install libc6-dev 
+ - sudo apt install libgdiplus
 script:
   - dotnet restore
   - dotnet test
