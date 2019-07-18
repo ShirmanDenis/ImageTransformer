@@ -3,9 +3,11 @@ mono: none
 dotnet: 2.2.100
 language: csharp
 solution: Kontur.ImageTransformer.sln
-install:
- - sudo apt instal libc6-dev 
- - sudo apt install libgdiplus
+addons:
+  apt:
+    packages:
+     - libc6-dev
+     - libgdiplus
 script:
   - dotnet restore
   - dotnet test
