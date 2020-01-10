@@ -37,6 +37,10 @@ export class App extends Component<IRootProvider, any> {
       .then(response => {
         const data = response.data;
         const workSpace = document.getElementById("filtered_img") as HTMLElement;
+        let firstChild = workSpace.childNodes[0];
+        if (firstChild){
+          workSpace.removeChild(firstChild);
+        }
         const img = document.createElement("img") as HTMLImageElement;
         img.src = `data:image/png;base64, ${data}`; 
         workSpace.appendChild(img);
@@ -47,6 +51,10 @@ export class App extends Component<IRootProvider, any> {
   }
   private onImageChoosen(){
     const workSpace = document.getElementById("loaded_img") as HTMLElement;
+    let firstChild = workSpace.childNodes[0];
+    if (firstChild){
+      workSpace.removeChild(firstChild);
+    }
     const img = document.createElement("img") as HTMLImageElement;
     img.src = `data:image/png;base64, ${btoa(this.props.Root.FileData.toString())}`; 
     workSpace.appendChild(img);
