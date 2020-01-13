@@ -8,7 +8,5 @@ namespace ImageTransform.Monitoring.Settings
     {
         public Uri ApiUrl { get; set; }
         public FileLogSettings FileLogSettings { get; set; }
-
-        public string Test { get; set; }
     }
 }

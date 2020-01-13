@@ -3,16 +3,21 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
 using System.Runtime.InteropServices;
-using NLog;
+using Vostok.Logging.Abstractions;
 
 namespace Kontur.ImageTransformer.ImageFilters
 {
     public class ThresholdFilter : IImageFilter
     {
-        private readonly Logger log = LogManager.GetCurrentClassLogger();
+        private readonly ILog _log;
+
         [DllImport("ImgProc.dll")]
         private static extern int Threshold(IntPtr imgData, int value, int height, int width, int bytesPerPixel, int stride);
 
+        public ThresholdFilter(ILog log)
+        {
+            _log = log;
+        }
         public string Name { get; } = "Threshold";
 
         public bool Filtrate(Bitmap img, params object[] parameters)
@@ -25,7 +30,7 @@ namespace Kontur.ImageTransformer.ImageFilters
             var value = parameters.FirstOrDefault();
             if (!TryParseParam(value, out var intParam, out var error))
             {
-                log.Error(error);
+                _log.Error(error);
                 return false;
             }
             var result = Threshold(bitmapData.Scan0, intParam, img.Height, img.Width, bytesPerPixel, bitmapData.Stride);

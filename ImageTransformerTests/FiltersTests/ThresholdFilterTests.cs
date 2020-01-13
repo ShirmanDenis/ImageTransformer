@@ -3,13 +3,14 @@ using System.Drawing;
 using System.Linq;
 using Kontur.ImageTransformer.ImageFilters;
 using NUnit.Framework;
+using Vostok.Logging.Console;
 
 namespace ImageTransformerTests.FiltersTests
 {
     [TestFixture]
     public class ThresholdFilterTests
     {
-        private readonly ThresholdFilter _thresholdFilter = new ThresholdFilter();
+        private readonly ThresholdFilter _thresholdFilter = new ThresholdFilter(new ConsoleLog());
 
         [Test]
         public void ThresholdFilter_ThrowArgumentNullException_WhenImageIsNull()

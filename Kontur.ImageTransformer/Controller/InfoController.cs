@@ -2,6 +2,7 @@
 using System.Linq;
 using Kontur.ImageTransformer.FiltersFactory;
 using Microsoft.AspNetCore.Mvc;
+using Vostok.Logging.Abstractions;
 
 namespace Kontur.ImageTransformer.Controller
 {

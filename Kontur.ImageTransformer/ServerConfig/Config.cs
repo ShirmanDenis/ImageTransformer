@@ -1,13 +1,17 @@
-﻿using System.Reflection;
-using Kontur.ImageTransformer.ImageFilters;
+﻿using Kontur.ImageTransformer.ImageFilters;
 using Kontur.ImageTransformer.FiltersFactory;
 using Kontur.ImageTransformer.ImageService;
+using Kontur.ImageTransformer.Middlewares;
 using Kontur.ImageTransformer.ModelBinders;
+using Kontur.ImageTransformer.Settings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+using Vostok.Logging.Abstractions;
+using Vostok.Logging.File;
 
 
 namespace Kontur.ImageTransformer.ServerConfig
@@ -31,20 +35,23 @@ namespace Kontur.ImageTransformer.ServerConfig
                 {
                     options.ModelBinderProviders.Insert(0, new FilterModelBinderProvider());
                 });
+            services.Configure<ApiSettings>(Configuration.GetSection("ApiSettings"));
+            services.AddSingleton<ILog>(sp => 
+                new FileLog(sp.GetService<IOptions<ApiSettings>>().Value.FileLogSettings));
             services.AddSingleton<ImageServiceOptions>();
             services.AddSingleton<IImageProcessService, ImageProcessService>();
 
-            services.AddSingleton<IFiltersFactory>(_ =>
+            services.AddSingleton<IFiltersFactory>(sp =>
             {
                 var factory = new FiltersFactory.FiltersFactory();
-                factory.RegisterFilter("threshold", new ThresholdFilter());
+                factory.RegisterFilter("threshold", new ThresholdFilter(sp.GetService<ILog>()));
                 factory.RegisterFilter("sepia", new SepiaFilter());
                 factory.RegisterFilter("grayscale", new GrayscaleFilter());
                 return factory;
             });
 
-            var sp = services.BuildServiceProvider();
-            var resolver = new FilterByRouteResolver(sp.GetService<IFiltersFactory>());
+            var serviceProvider = services.BuildServiceProvider();
+            var resolver = new FilterByRouteResolver(serviceProvider.GetService<IFiltersFactory>());
             resolver.AddRouteValidator(@"(?<FilterName>threshold)\((?<params>[0-9]{1,3})\)");
             resolver.AddRouteValidator(@"(?<FilterName>sepia)");
             resolver.AddRouteValidator(@"(?<FilterName>grayscale)");
@@ -69,7 +76,8 @@ namespace Kontur.ImageTransformer.ServerConfig
 
             // link wwwroot folder
             app.UseStaticFiles();
-            
+
+            app.UseMiddleware<LoggingMiddleware>();
             app.UseMvc();
         }
 
