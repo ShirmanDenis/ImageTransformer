@@ -4,6 +4,7 @@ import Axios from 'axios';
 import { ComboBox } from "./Components/ComboBox";
 import { FileLoader } from "./Components/FileLoader";
 import { IRootProvider } from "./Models/IRootStore";
+import { Header } from "./Components/Header/Header"
 
 export class App extends Component<IRootProvider, any> {
   private currentFilter: any;
@@ -62,9 +63,7 @@ export class App extends Component<IRootProvider, any> {
   public render() {
     return (
       <div>
-        <header>
-          Это хедер
-        </header>
+        <Header/>
         <div>
           <ComboBox root={this.props.Root} title={this.state.data[0]} elements={this.state.data}/>
           <FileLoader root={this.props.Root} onLoaded={this.onImageChoosen}/>

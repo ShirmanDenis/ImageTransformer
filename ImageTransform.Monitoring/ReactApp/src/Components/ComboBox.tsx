@@ -15,6 +15,9 @@ export class ComboBox extends Component<IComboBoxProps, any> {
         this.state = {currentElement: null}
         this.onElemClick = this.onElemClick.bind(this);
     }
+    componentWillMount(){
+        this.setState({currentElement: this.props.elements[0]});
+    }
     onElemClick(c: Component<IComboBoxProps, any>, e: React.MouseEvent<HTMLAnchorElement, MouseEvent>){
         const content = e.currentTarget.innerHTML;
         this.props.root.setFilterName(content);
