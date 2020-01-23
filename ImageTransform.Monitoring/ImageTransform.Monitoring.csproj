@@ -19,7 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ImageTransfom.Client\ImageTransform.Client.csproj" />
-    <ProjectReference Include="..\Kontur.ImageTransformer\Kontur.ImageTransformer.csproj" />
+    <ProjectReference Include="..\Kontur.ImageTransformer\ImageTransform.Api.csproj" />
   </ItemGroup>
 
 </Project>

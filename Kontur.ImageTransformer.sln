@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28922.388
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kontur.ImageTransformer", "Kontur.ImageTransformer\Kontur.ImageTransformer.csproj", "{9801585B-D1AA-4078-B9C4-7B7F8883E55E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageTransform.Api", "Kontur.ImageTransformer\ImageTransform.Api.csproj", "{9801585B-D1AA-4078-B9C4-7B7F8883E55E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageTransformerTests", "ImageTransformerTests\ImageTransformerTests.csproj", "{41852CBB-1B67-4187-B8B4-0C230E380501}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageTransform.Unit.Tests", "ImageTransformerTests\ImageTransform.Unit.Tests.csproj", "{41852CBB-1B67-4187-B8B4-0C230E380501}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageTransform.Monitoring", "ImageTransform.Monitoring\ImageTransform.Monitoring.csproj", "{EF347F85-1EDA-4016-8D65-4F5E7C7BE59E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageTransform.Client", "ImageTransfom.Client\ImageTransform.Client.csproj", "{EB7BC531-EB19-4218-AEAD-49311F0C919F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageTransform.Client", "ImageTransfom.Client\ImageTransform.Client.csproj", "{EB7BC531-EB19-4218-AEAD-49311F0C919F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageTransform.Client.Models", "ImageTransform.Client.Models\ImageTransform.Client.Models.csproj", "{6DFAFDEF-9EF0-40F2-AA49-C7ECFD1A93C2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +71,18 @@ Global
 		{EB7BC531-EB19-4218-AEAD-49311F0C919F}.unsafe|Any CPU.Build.0 = Debug|Any CPU
 		{EB7BC531-EB19-4218-AEAD-49311F0C919F}.unsafe|x64.ActiveCfg = Debug|Any CPU
 		{EB7BC531-EB19-4218-AEAD-49311F0C919F}.unsafe|x64.Build.0 = Debug|Any CPU
+		{6DFAFDEF-9EF0-40F2-AA49-C7ECFD1A93C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DFAFDEF-9EF0-40F2-AA49-C7ECFD1A93C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DFAFDEF-9EF0-40F2-AA49-C7ECFD1A93C2}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6DFAFDEF-9EF0-40F2-AA49-C7ECFD1A93C2}.Debug|x64.Build.0 = Debug|Any CPU
+		{6DFAFDEF-9EF0-40F2-AA49-C7ECFD1A93C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DFAFDEF-9EF0-40F2-AA49-C7ECFD1A93C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6DFAFDEF-9EF0-40F2-AA49-C7ECFD1A93C2}.Release|x64.ActiveCfg = Release|Any CPU
+		{6DFAFDEF-9EF0-40F2-AA49-C7ECFD1A93C2}.Release|x64.Build.0 = Release|Any CPU
+		{6DFAFDEF-9EF0-40F2-AA49-C7ECFD1A93C2}.unsafe|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DFAFDEF-9EF0-40F2-AA49-C7ECFD1A93C2}.unsafe|Any CPU.Build.0 = Debug|Any CPU
+		{6DFAFDEF-9EF0-40F2-AA49-C7ECFD1A93C2}.unsafe|x64.ActiveCfg = Debug|Any CPU
+		{6DFAFDEF-9EF0-40F2-AA49-C7ECFD1A93C2}.unsafe|x64.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
