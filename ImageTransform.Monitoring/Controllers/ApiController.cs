@@ -27,11 +27,11 @@ namespace ImageTransform.Monitoring.Controllers
 
         [HttpGet]
         [Route("filters")]
-        public async Task<IEnumerable<string>> GetFilters()
+        public async Task<OperationResult<IEnumerable<string>>> GetFilters()
         {
             var operationResult = await _imageTransformClient.GetRegisteredFilters();
 
-            return operationResult.Result;
+            return operationResult;
         }
 
         [HttpPost]

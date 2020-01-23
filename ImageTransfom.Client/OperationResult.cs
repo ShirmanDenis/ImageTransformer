@@ -10,6 +10,8 @@ namespace ImageTransform.Client
         public T Result => EnsureSuccess()._result;
         public string ErrorMsg { get; private set; } = string.Empty;
 
+        public bool IsSuccessful => string.IsNullOrEmpty(ErrorMsg);
+
         public OperationResult<T> EnsureSuccess()
         {
             if (!string.IsNullOrEmpty(ErrorMsg))

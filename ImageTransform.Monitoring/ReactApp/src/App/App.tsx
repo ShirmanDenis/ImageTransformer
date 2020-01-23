@@ -1,40 +1,42 @@
 import React, { Component } from "react";
 import './App.css';
-import Axios from 'axios';
-import { ComboBox } from "./Components/ComboBox";
-import { FileLoader } from "./Components/FileLoader";
-import { IRootProvider } from "./Models/IRootStore";
-import { Header } from "./Components/Header/Header"
+import { apiInstance } from "./../api/index" 
+import { ComboBox } from "./../Components/ComboBox";
+import { FileLoader } from "./../Components/FileLoader";
+import { IRootProvider } from "./../Models/IRootStore";
+import { Header } from "./../Components/Header/Header"
 
-export class App extends Component<IRootProvider, any> {
+export class App extends Component<IRootProvider, string[]> {
   private currentFilter: any;
-
+  
   constructor(props: IRootProvider) {
     super(props);
-    this.state = { data: [] }
+    this.state = [];
     this.onButtonCLick = this.onButtonCLick.bind(this);
     this.onImageChoosen = this.onImageChoosen.bind(this);
   }
-  componentDidMount() {
-    Axios.get("api/filters")
+
+  componentWillMount() {
+    apiInstance.getFilters()
       .then(response => {
-        this.setState({ data: response.data })
+        if (response.data.isSuccessful) {
+          this.setState(response.data.result);
+          this.currentFilter = response.data.result[0]
+        } else {
+          console.log(response.data.errorMsg);
+        }
       })
       .catch(error => {
         console.log(error);
       })
   }
+
   onButtonCLick() {
     const json = JSON.stringify({
       FilterName: this.props.Root.FilterName,
       ImgData: btoa(this.props.Root.FileData.toString())
     });
-    Axios
-      .post("api/filtrate", json, {
-        headers: {
-          'Content-Type': 'application/json; charset=utf-8'
-        }
-      })
+    apiInstance.filtrate(json)
       .then(response => {
         const data = response.data;
         const workSpace = document.getElementById("filtered_img") as HTMLElement;
@@ -65,7 +67,7 @@ export class App extends Component<IRootProvider, any> {
       <div>
         <Header/>
         <div>
-          <ComboBox root={this.props.Root} title={this.state.data[0]} elements={this.state.data}/>
+          <ComboBox root={this.props.Root} title={this.state[0]} elements={[...this.state || []]}/>
           <FileLoader root={this.props.Root} onLoaded={this.onImageChoosen}/>
           <div id="loaded_img"></div>
           <button onClick={this.onButtonCLick}>Обработка</button>

@@ -5,7 +5,7 @@ import { RootStore } from '../Stores/RootStore';
 interface IComboBoxProps {
     title?: string;
     root: RootStore;
-    elements: any[];
+    elements: string[];
     onClick?: any;
 }
 
