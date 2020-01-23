@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28922.388
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageTransform.Api", "Kontur.ImageTransformer\ImageTransform.Api.csproj", "{9801585B-D1AA-4078-B9C4-7B7F8883E55E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageTransform.Api", "ImageTransform.Api\ImageTransform.Api.csproj", "{9801585B-D1AA-4078-B9C4-7B7F8883E55E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageTransform.Unit.Tests", "ImageTransformerTests\ImageTransform.Unit.Tests.csproj", "{41852CBB-1B67-4187-B8B4-0C230E380501}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageTransform.Unit.Tests", "ImageTransform.Unit.Tests\ImageTransform.Unit.Tests.csproj", "{41852CBB-1B67-4187-B8B4-0C230E380501}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageTransform.Monitoring", "ImageTransform.Monitoring\ImageTransform.Monitoring.csproj", "{EF347F85-1EDA-4016-8D65-4F5E7C7BE59E}"
 EndProject
