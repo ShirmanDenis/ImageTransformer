@@ -29,7 +29,7 @@ namespace ImageTransform.Monitoring
         {
             services.AddOptions();
             services.Configure<MonitoringSettings>(Configuration.GetSection("MonitoringSettings"));
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+            services.AddMvc(options => options.EnableEndpointRouting = false).SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
             services.AddSingleton<ILog>(sp => new FileLog(sp.GetService<IOptions<MonitoringSettings>>().Value.FileLogSettings));
             services.AddSingleton(sp => ImageTransformClientFactory.Create(sp.GetService<IOptions<MonitoringSettings>>().Value.ApiUrl, sp.GetService<ILog>()));
@@ -51,12 +51,12 @@ namespace ImageTransform.Monitoring
 
             app.UseStaticFiles();
 
-            //app.UseMvc(routes =>
-            //{
-            //    routes.MapRoute(
-            //        name: "default",
-            //        template: "{controller=Home}/{action=Index}/{id?}");
-            //});
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Home}/{action=Index}/{id?}");
+            });
             app.UseSpaStaticFiles();
             app.UseSpa(builder =>
             {
