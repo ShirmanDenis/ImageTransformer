@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Linq;
-using ImageTransform.Api.ImageFilters;
+using ImageTransform.Core.ImageFilters;
 
-namespace ImageTransform.Api.FiltersFactory
+namespace ImageTransform.Core.FiltersFactory
 {
     public class FiltersFactory : IFiltersFactory
     {

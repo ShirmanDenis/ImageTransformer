@@ -1,7 +1,7 @@
 ﻿using System;
 using FluentAssertions;
-using ImageTransform.Api.FiltersFactory;
-using ImageTransform.Api.ImageFilters;
+using ImageTransform.Core.FiltersFactory;
+using ImageTransform.Core.ImageFilters;
 using NUnit.Framework;
 
 namespace ImageTransform.Unit.Tests

@@ -1,6 +1,6 @@
 ﻿using JetBrains.Annotations;
 
-namespace ImageTransform.Api.ImageFilters
+namespace ImageTransform.Core.ImageFilters
 {
     public interface IFilterByRouteResolver
     {

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using ImageTransform.Api.ImageFilters;
 using ImageTransform.Api.Models;
+using ImageTransform.Core.ImageFilters;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace ImageTransform.Api.ModelBinders

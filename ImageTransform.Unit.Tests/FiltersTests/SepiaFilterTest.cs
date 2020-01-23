@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Linq;
 using FluentAssertions;
-using ImageTransform.Api.ImageFilters;
+using ImageTransform.Core.ImageFilters;
 using NUnit.Framework;
 
 namespace ImageTransform.Unit.Tests.FiltersTests

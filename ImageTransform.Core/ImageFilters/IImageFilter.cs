@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace ImageTransform.Api.ImageFilters
+namespace ImageTransform.Core.ImageFilters
 {
     public interface IImageFilter
     {

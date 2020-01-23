@@ -2,9 +2,9 @@
 using System.Collections.Concurrent;
 using System.Linq;
 using System.Text.RegularExpressions;
-using ImageTransform.Api.FiltersFactory;
+using ImageTransform.Core.FiltersFactory;
 
-namespace ImageTransform.Api.ImageFilters
+namespace ImageTransform.Core.ImageFilters
 {
     public class FilterByRouteResolver : IFilterByRouteResolver, IParamsFromRouteExtractor
     {
@@ -42,17 +42,15 @@ namespace ImageTransform.Api.ImageFilters
         {
             foreach (var routeValidator in _routeValidators)
             {
-                
                 var match = routeValidator.Match(filterRoute);
                 if (!match.Success) continue;
-
+                
                 var @params = match.Groups["params"];
-
                 if (@params.Success)
-                    return @params.Captures
-                        .Select(capture => capture.Value)
-                        .Cast<object>()
-                        .ToArray();
+                {
+                    return (from Capture capture in @params.Captures 
+                            select capture.Value).Cast<object>().ToArray();
+                }
             }
             return null;
         }

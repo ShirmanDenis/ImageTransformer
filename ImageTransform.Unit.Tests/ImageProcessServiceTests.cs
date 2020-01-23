@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
-using ImageTransform.Api.ImageFilters;
-using ImageTransform.Api.ImageService;
+using ImageTransform.Core.ImageFilters;
+using ImageTransform.Core.Services;
 using NUnit.Framework;
 
 namespace ImageTransform.Unit.Tests
@@ -8,7 +8,7 @@ namespace ImageTransform.Unit.Tests
     [TestFixture]
     public class ImageProcessServiceTests
     {
-        private readonly ImageProcessService _service = new ImageProcessService(new ImageServiceOptions());
+        private readonly ImageProcessService _service = new ImageProcessService();
         private readonly SepiaFilter _filter = new SepiaFilter();
 
         private static object[] CropAreaCases = {

@@ -1,18 +1,11 @@
 ﻿using System;
 using System.Drawing;
-using ImageTransform.Api.ImageFilters;
+using ImageTransform.Core.ImageFilters;
 
-namespace ImageTransform.Api.ImageService
+namespace ImageTransform.Core.Services
 {
     public class ImageProcessService : IImageProcessService
     {
-        public ImageServiceOptions Options { get; set; }
-
-        public ImageProcessService(ImageServiceOptions serviceOptions = null)
-        {
-            Options = serviceOptions ?? new ImageServiceOptions();
-        }
-
         public Bitmap Process(Bitmap image, Rectangle scope, IImageFilter filter, params object[] filterParams)
         {
             if (image == null)

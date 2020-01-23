@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 
-namespace ImageTransform.Api.ImageFilters
+namespace ImageTransform.Core.ImageFilters
 {
     public class GrayscaleFilter : IImageFilter
     {

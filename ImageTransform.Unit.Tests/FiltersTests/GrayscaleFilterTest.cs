@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Linq;
-using ImageTransform.Api.ImageFilters;
+using ImageTransform.Core.ImageFilters;
 using NUnit.Framework;
 
 namespace ImageTransform.Unit.Tests.FiltersTests

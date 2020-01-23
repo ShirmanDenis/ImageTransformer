@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using ImageTransform.Api.FiltersFactory;
+﻿using System.Linq;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using ImageTransform.Core.FiltersFactory;
 
 namespace ImageTransform.Api.Controllers
 {
     [Route("info")]
-    public class InfoController : Microsoft.AspNetCore.Mvc.Controller
+    public class InfoController : Controller
     {
         private readonly IFiltersFactory _filtersFactory;
 

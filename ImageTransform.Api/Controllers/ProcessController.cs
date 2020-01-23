@@ -2,31 +2,32 @@
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using ImageTransform.Api.ActionFilters;
-using ImageTransform.Api.ImageFilters;
-using ImageTransform.Api.ImageService;
 using ImageTransform.Api.Models;
+using ImageTransform.Core.ImageFilters;
+using ImageTransform.Core.Services;
 using Microsoft.AspNetCore.Mvc;
+using Vostok.Logging.Abstractions;
 
 namespace ImageTransform.Api.Controllers
 {
     [Route("process")]
     public class ProcessController : ControllerBase
     {
+        private readonly ILog _log;
         private readonly IImageProcessService _service;
         private readonly IFilterByRouteResolver _filterResolver;
 
         public ProcessController(
             IImageProcessService service,
-            IFilterByRouteResolver filterResolver)
+            IFilterByRouteResolver filterResolver, ILog log)
         {
             _service = service;
             _filterResolver = filterResolver;
+            _log = log;
         }
 
         [HttpPost]
         [Route("{*route}")]
-        [ImageSizeLimit]
         public IActionResult Process(string route, FilterModel filterModel)
         {
             var filter = _filterResolver.Resolve(route);
@@ -45,7 +46,7 @@ namespace ImageTransform.Api.Controllers
             IActionResult result;
             try
             {
-                using (var imgFromRequest = new Bitmap(Request.Body))
+                using (var imgFromRequest = new Bitmap(Request.BodyReader.AsStream(true)))
                 {
                     var cropArea = _service.ToCropArea(imgFromRequest.Size, x, y, w, h);
                     if (cropArea == Rectangle.Empty)
@@ -63,8 +64,9 @@ namespace ImageTransform.Api.Controllers
             {
                 result = StatusCode(429);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _log.Error(e);
                 result = StatusCode(500);
             }
 
