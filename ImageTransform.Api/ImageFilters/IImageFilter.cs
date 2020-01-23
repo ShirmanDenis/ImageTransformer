@@ -1,9 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.Threading.Tasks;
+﻿using System.Drawing;
 
-namespace Kontur.ImageTransformer.ImageFilters
+namespace ImageTransform.Api.ImageFilters
 {
     public interface IImageFilter
     {

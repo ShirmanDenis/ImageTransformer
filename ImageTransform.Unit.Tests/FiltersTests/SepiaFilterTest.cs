@@ -1,17 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Threading;
 using FluentAssertions;
-using Kontur.ImageTransformer.ImageFilters;
+using ImageTransform.Api.ImageFilters;
 using NUnit.Framework;
 
-namespace ImageTransformerTests
+namespace ImageTransform.Unit.Tests.FiltersTests
 {
     [TestFixture]
     public class SepiaFilterTest
@@ -26,7 +20,7 @@ namespace ImageTransformerTests
         [Test]
         public void SepiaFilterAlgoTest()
         {
-            var testImg = Resources.AlphaImg;
+            var testImg = Resources.Resources.AlphaImg;
             var expectedPixelsArray = Helper.GetImagePixels(testImg).Select(Sepia);
 
             var success = _filter.Filtrate(testImg);

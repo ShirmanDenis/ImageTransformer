@@ -5,7 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using Vostok.Logging.Abstractions;
 
-namespace Kontur.ImageTransformer.ImageFilters
+namespace ImageTransform.Api.ImageFilters
 {
     public class ThresholdFilter : IImageFilter
     {

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Kontur.ImageTransformer.ImageService
+﻿namespace ImageTransform.Api.ImageService
 {
     public class ImageServiceOptions
     {

@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Kontur.ImageTransformer.ImageFilters;
-using Kontur.ImageTransformer.ImageService;
+﻿using System.Drawing;
+using ImageTransform.Api.ImageFilters;
+using ImageTransform.Api.ImageService;
 using NUnit.Framework;
-using NUnit.Framework.Internal;
 
-namespace ImageTransformerTests
+namespace ImageTransform.Unit.Tests
 {
     [TestFixture]
     public class ImageProcessServiceTests
@@ -35,7 +29,7 @@ namespace ImageTransformerTests
         [Test, TestCaseSource(nameof(CropAreaCases))]        
         public void CropAreaTests(int x, int y, int w, int h, Rectangle expected)
         {
-            var image = Resources.TestImg;
+            var image = Resources.Resources.TestImg;
             var cropArea = _service.ToCropArea(image.Size, x, y, w, h);
             
             Assert.AreEqual(expected, cropArea);

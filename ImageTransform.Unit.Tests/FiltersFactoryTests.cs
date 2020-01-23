@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using FluentAssertions;
-using Kontur.ImageTransformer.ImageFilters;
-using Kontur.ImageTransformer.FiltersFactory;
+using ImageTransform.Api.FiltersFactory;
+using ImageTransform.Api.ImageFilters;
 using NUnit.Framework;
 
-namespace ImageTransformerTests
+namespace ImageTransform.Unit.Tests
 {
     [TestFixture]
     public class FiltersFactoryTests

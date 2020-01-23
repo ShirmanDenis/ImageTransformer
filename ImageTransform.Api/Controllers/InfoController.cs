@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Kontur.ImageTransformer.FiltersFactory;
+using ImageTransform.Api.FiltersFactory;
 using Microsoft.AspNetCore.Mvc;
-using Vostok.Logging.Abstractions;
 
-namespace Kontur.ImageTransformer.Controller
+namespace ImageTransform.Api.Controllers
 {
     [Route("info")]
     public class InfoController : Microsoft.AspNetCore.Mvc.Controller

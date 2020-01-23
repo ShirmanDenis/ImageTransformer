@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Kontur.ImageTransformer.ImageFilters;
-using Kontur.ImageTransformer.Models;
+using ImageTransform.Api.ImageFilters;
+using ImageTransform.Api.Models;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace Kontur.ImageTransformer.ModelBinders
+namespace ImageTransform.Api.ModelBinders
 {
     public class FilterModelBinder : IModelBinder
     {

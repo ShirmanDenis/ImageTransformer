@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
     <LangVersion>7.1</LangVersion>
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
@@ -9,17 +9,16 @@
 
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
+    <PackageReference Include="Microsoft.AspNetCore.SpaServices" Version="3.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.1" />
     <PackageReference Include="Vostok.Logging.File" Version="1.0.4" />
   </ItemGroup>
 
 
   <ItemGroup>
     <ProjectReference Include="..\ImageTransfom.Client\ImageTransform.Client.csproj" />
-    <ProjectReference Include="..\Kontur.ImageTransformer\ImageTransform.Api.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Kontur.ImageTransformer.Controller
+namespace ImageTransform.Api.Controllers
 {
     [Route("_status")]
     public class StatusController : ControllerBase

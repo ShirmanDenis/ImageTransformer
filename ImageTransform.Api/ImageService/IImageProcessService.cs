@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Kontur.ImageTransformer.ImageFilters;
-using Kontur.ImageTransformer.FiltersFactory;
+﻿using System.Drawing;
+using ImageTransform.Api.ImageFilters;
 
-namespace Kontur.ImageTransformer.ImageService
+namespace ImageTransform.Api.ImageService
 {
     public interface IImageProcessService
     {

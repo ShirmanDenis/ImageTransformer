@@ -2,9 +2,9 @@
 using System.Collections.Concurrent;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Kontur.ImageTransformer.FiltersFactory;
+using ImageTransform.Api.FiltersFactory;
 
-namespace Kontur.ImageTransformer.ImageFilters
+namespace ImageTransform.Api.ImageFilters
 {
     public class FilterByRouteResolver : IFilterByRouteResolver, IParamsFromRouteExtractor
     {

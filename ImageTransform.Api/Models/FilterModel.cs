@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Kontur.ImageTransformer.Models
+namespace ImageTransform.Api.Models
 {
     public class FilterModel
     {

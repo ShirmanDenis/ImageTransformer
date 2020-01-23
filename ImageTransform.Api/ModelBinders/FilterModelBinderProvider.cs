@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Kontur.ImageTransformer.Models;
+using ImageTransform.Api.Models;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 
-namespace Kontur.ImageTransformer.ModelBinders
+namespace ImageTransform.Api.ModelBinders
 {
     public class FilterModelBinderProvider: IModelBinderProvider
     {

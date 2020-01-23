@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
 using Vostok.Logging.Abstractions;
@@ -28,17 +29,16 @@ namespace ImageTransform.Monitoring
         {
             services.AddOptions();
             services.Configure<MonitoringSettings>(Configuration.GetSection("MonitoringSettings"));
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
-            var settings = services.BuildServiceProvider().GetService<IOptions<MonitoringSettings>>().Value;
-            services.AddSingleton<ILog>(new FileLog(settings.FileLogSettings));
-            services.AddSingleton(sp => ImageTransformClientFactory.Create(settings.ApiUrl, sp.GetService<ILog>()));
+            services.AddSingleton<ILog>(sp => new FileLog(sp.GetService<IOptions<MonitoringSettings>>().Value.FileLogSettings));
+            services.AddSingleton(sp => ImageTransformClientFactory.Create(sp.GetService<IOptions<MonitoringSettings>>().Value.ApiUrl, sp.GetService<ILog>()));
 
             services.AddSpaStaticFiles(options => options.RootPath = "ReactApp\\build");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -50,12 +50,13 @@ namespace ImageTransform.Monitoring
             }
 
             app.UseStaticFiles();
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-            });
+
+            //app.UseMvc(routes =>
+            //{
+            //    routes.MapRoute(
+            //        name: "default",
+            //        template: "{controller=Home}/{action=Index}/{id?}");
+            //});
             app.UseSpaStaticFiles();
             app.UseSpa(builder =>
             {

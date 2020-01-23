@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Linq;
-using Kontur.ImageTransformer.ImageFilters;
+using ImageTransform.Api.ImageFilters;
 
-namespace Kontur.ImageTransformer.FiltersFactory
+namespace ImageTransform.Api.FiltersFactory
 {
     public class FiltersFactory : IFiltersFactory
     {

@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Drawing;
 using System.Linq;
-using Kontur.ImageTransformer.ImageFilters;
+using ImageTransform.Api.ImageFilters;
 using NUnit.Framework;
 using Vostok.Logging.Console;
 
-namespace ImageTransformerTests.FiltersTests
+namespace ImageTransform.Unit.Tests.FiltersTests
 {
     [TestFixture]
     public class ThresholdFilterTests
@@ -21,7 +21,7 @@ namespace ImageTransformerTests.FiltersTests
         [Test]
         public void ThresholdFilter_ShouldThrowException_whenParameterNotAdded()
         {
-            Assert.Throws<ArgumentNullException>(() => _thresholdFilter.Filtrate(Resources.AlphaImg), "Parameter cannot be null");
+            Assert.Throws<ArgumentNullException>(() => _thresholdFilter.Filtrate(Resources.Resources.AlphaImg), "Parameter cannot be null");
         }
 
         [Test]
@@ -30,7 +30,7 @@ namespace ImageTransformerTests.FiltersTests
         [TestCase(100)]
         public void ThresholdFilterAlgoTest(int value)
         {
-            var testImg = Resources.AlphaImg;
+            var testImg = Resources.Resources.AlphaImg;
             var expectedPixelsArray = Helper.GetImagePixels(testImg).Select(c => Threshold(c, value));
 
             _thresholdFilter.Filtrate(testImg, value);

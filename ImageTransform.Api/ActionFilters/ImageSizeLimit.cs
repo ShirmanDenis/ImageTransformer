@@ -1,9 +1,8 @@
-﻿using System.Net;
-using Kontur.ImageTransformer.ImageService;
+﻿using ImageTransform.Api.ImageService;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Kontur.ImageTransformer.ActionFilters
+namespace ImageTransform.Api.ActionFilters
 {
     public class ImageSizeLimit : ActionFilterAttribute
     {

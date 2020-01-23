@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using System.IO;
 
-namespace ImageTransformerTests
+namespace ImageTransform.Unit.Tests.Resources
 {
     public class Resources
     {

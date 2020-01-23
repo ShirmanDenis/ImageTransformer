@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 
-namespace Kontur.ImageTransformer.ImageFilters
+namespace ImageTransform.Api.ImageFilters
 {
     public class GrayscaleFilter : IImageFilter
     {

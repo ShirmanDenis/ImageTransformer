@@ -1,6 +1,6 @@
 ﻿using Vostok.Logging.File.Configuration;
 
-namespace Kontur.ImageTransformer.Settings
+namespace ImageTransform.Api.Settings
 {
     public class ApiSettings
     {

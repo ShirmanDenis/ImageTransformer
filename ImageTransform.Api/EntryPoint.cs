@@ -1,8 +1,8 @@
-﻿using Kontur.ImageTransformer.ServerConfig;
+﻿using ImageTransform.Api.ServerConfig;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
-namespace Kontur.ImageTransformer
+namespace ImageTransform.Api
 {
     public class EntryPoint
     {

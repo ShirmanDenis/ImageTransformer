@@ -1,7 +1,7 @@
-﻿using JetBrains.Annotations;
-using Kontur.ImageTransformer.ImageFilters;
+﻿using ImageTransform.Api.ImageFilters;
+using JetBrains.Annotations;
 
-namespace Kontur.ImageTransformer.FiltersFactory
+namespace ImageTransform.Api.FiltersFactory
 {
     public interface IFiltersFactory
     {

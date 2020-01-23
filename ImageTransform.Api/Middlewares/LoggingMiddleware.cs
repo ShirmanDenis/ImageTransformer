@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Vostok.Logging.Abstractions;
 
-namespace Kontur.ImageTransformer.Middlewares
+namespace ImageTransform.Api.Middlewares
 {
     public class LoggingMiddleware
     {

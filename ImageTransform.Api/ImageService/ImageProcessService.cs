@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Drawing;
-using Kontur.ImageTransformer.ImageFilters;
+using ImageTransform.Api.ImageFilters;
 
-namespace Kontur.ImageTransformer.ImageService
+namespace ImageTransform.Api.ImageService
 {
     public class ImageProcessService : IImageProcessService
     {

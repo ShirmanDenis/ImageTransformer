@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FluentAssertions;
-using Kontur.ImageTransformer.ImageFilters;
+using ImageTransform.Api.ImageFilters;
 using NUnit.Framework;
 
-namespace ImageTransformerTests
+namespace ImageTransform.Unit.Tests.FiltersTests
 {
     [TestFixture]
     public class GrayscaleFilterTest
@@ -23,7 +19,7 @@ namespace ImageTransformerTests
         [Test]
         public void GrayscaleFilterAlgoTest()
         {
-            var testImg = Resources.AlphaImg;
+            var testImg = Resources.Resources.AlphaImg;
             var expectedPixelsArray = Helper.GetImagePixels(testImg).Select(Grayscale);
 
             _grayscaleFilter.Filtrate(testImg);

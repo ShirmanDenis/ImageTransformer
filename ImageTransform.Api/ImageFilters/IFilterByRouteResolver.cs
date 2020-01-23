@@ -1,6 +1,6 @@
 ﻿using JetBrains.Annotations;
 
-namespace Kontur.ImageTransformer.ImageFilters
+namespace ImageTransform.Api.ImageFilters
 {
     public interface IFilterByRouteResolver
     {

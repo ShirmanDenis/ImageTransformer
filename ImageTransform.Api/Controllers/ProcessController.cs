@@ -2,13 +2,13 @@
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using Kontur.ImageTransformer.ActionFilters;
-using Kontur.ImageTransformer.ImageFilters;
-using Kontur.ImageTransformer.ImageService;
-using Kontur.ImageTransformer.Models;
+using ImageTransform.Api.ActionFilters;
+using ImageTransform.Api.ImageFilters;
+using ImageTransform.Api.ImageService;
+using ImageTransform.Api.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Kontur.ImageTransformer.Controller
+namespace ImageTransform.Api.Controllers
 {
     [Route("process")]
     public class ProcessController : ControllerBase

@@ -1,9 +1,9 @@
-﻿using Kontur.ImageTransformer.ImageFilters;
-using Kontur.ImageTransformer.FiltersFactory;
-using Kontur.ImageTransformer.ImageService;
-using Kontur.ImageTransformer.Middlewares;
-using Kontur.ImageTransformer.ModelBinders;
-using Kontur.ImageTransformer.Settings;
+﻿using ImageTransform.Api.FiltersFactory;
+using ImageTransform.Api.ImageFilters;
+using ImageTransform.Api.ImageService;
+using ImageTransform.Api.Middlewares;
+using ImageTransform.Api.ModelBinders;
+using ImageTransform.Api.Settings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -13,8 +13,7 @@ using Microsoft.Extensions.Options;
 using Vostok.Logging.Abstractions;
 using Vostok.Logging.File;
 
-
-namespace Kontur.ImageTransformer.ServerConfig
+namespace ImageTransform.Api.ServerConfig
 {
     public class Config
     {
@@ -43,7 +42,7 @@ namespace Kontur.ImageTransformer.ServerConfig
 
             services.AddSingleton<IFiltersFactory>(sp =>
             {
-                var factory = new FiltersFactory.FiltersFactory();
+                var factory = new ImageTransform.Api.FiltersFactory.FiltersFactory();
                 factory.RegisterFilter("threshold", new ThresholdFilter(sp.GetService<ILog>()));
                 factory.RegisterFilter("sepia", new SepiaFilter());
                 factory.RegisterFilter("grayscale", new GrayscaleFilter());

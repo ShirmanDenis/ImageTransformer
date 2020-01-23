@@ -2,15 +2,13 @@
 using System.IO;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using FluentAssertions;
-using Kontur.ImageTransformer;
-using Kontur.ImageTransformer.ServerConfig;
+using ImageTransform.Api.ServerConfig;
 using Microsoft.AspNetCore.Mvc.Testing;
 using NUnit.Framework;
 
-namespace ImageTransformerTests
+namespace ImageTransform.Unit.Tests
 {
     [TestFixture]
     public class ServerTests
@@ -24,7 +22,7 @@ namespace ImageTransformerTests
         public void OneTimeSetUp()
         {
             var imgStream = new MemoryStream();
-            Resources.AlphaImg.Save(imgStream, ImageFormat.Png);
+            Resources.Resources.AlphaImg.Save(imgStream, ImageFormat.Png);
             imgStream.Position = 0;
             _imgData = imgStream.ToArray();
             _client = _factory.CreateClient();
@@ -121,7 +119,7 @@ namespace ImageTransformerTests
         public async Task Server_shouldReturn400BadRequest_whenRequestContentLength_greaterThan100KB(string uri)
         {
             var imgStream = new MemoryStream();
-            Resources.BigImage.Save(imgStream, ImageFormat.Png);
+            Resources.Resources.BigImage.Save(imgStream, ImageFormat.Png);
             imgStream.Position = 0;
             var response = await _client.PostAsync(Prefix + uri, new StreamContent(imgStream));
 
