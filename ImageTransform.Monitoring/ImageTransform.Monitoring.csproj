@@ -19,6 +19,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ImageTransfom.Client\ImageTransform.Client.csproj" />
+    <ProjectReference Include="..\ImageTransform.Client.Models\ImageTransform.Client.Models.csproj" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Folder Include="Models\" />
   </ItemGroup>
 
 </Project>

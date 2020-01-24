@@ -1,14 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.Text;
 using System.Threading.Tasks;
 using ImageTransform.Client;
-using ImageTransform.Monitoring.Models;
+using ImageTransform.Client.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
-using Newtonsoft.Json;
 using Vostok.Logging.Abstractions;
 
 namespace ImageTransform.Monitoring.Controllers
@@ -29,24 +24,20 @@ namespace ImageTransform.Monitoring.Controllers
         [Route("filters")]
         public async Task<OperationResult<IEnumerable<string>>> GetFilters()
         {
-            var operationResult = await _imageTransformClient.GetRegisteredFilters();
-
-            return operationResult;
+            return await _imageTransformClient.GetFiltersAsync().ConfigureAwait(false);
         }
 
         [HttpPost]
         [Route("filtrate")]
-        public async Task<string> Filtrate([FromBody]FiltrateImageModel filtrateImageModel)
+        public async Task<OperationResult<string>> Filtrate([FromBody] FiltrateImageModel filtrateImageModel)
         {
-            var operationResult = await _imageTransformClient
-                .FiltrateImage(filtrateImageModel.ImgData, filtrateImageModel.FilterName, new Rectangle(0,0, 100, 100));
-            return Convert.ToBase64String(operationResult.Result);
-        }
+            if (!ModelState.IsValid)
+                return OperationResult<string>.CreateFailed("Request model is not valid.");
 
-        public override void OnActionExecuting(ActionExecutingContext context)
-        {
-            _log.Info($"Received request {Request.Path}");
-            base.OnActionExecuting(context);
+            var operationResult = await _imageTransformClient
+                .FiltrateImageAsync(filtrateImageModel)
+                .ConfigureAwait(false);
+            return OperationResult<string>.CreateOk(Convert.ToBase64String(operationResult.Result));
         }
     }
 }

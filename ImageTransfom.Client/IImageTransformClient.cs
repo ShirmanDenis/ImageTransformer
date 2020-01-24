@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Threading.Tasks;
+using ImageTransform.Client.Models;
+using JetBrains.Annotations;
 
 namespace ImageTransform.Client
 {
     public interface IImageTransformClient
     {
-        Task<OperationResult<IEnumerable<string>>> GetRegisteredFilters(TimeSpan? timeout = null);
-        Task<OperationResult<byte[]>> FiltrateImage(byte[] imageBytes, string filter, Rectangle rectangle, params object[] @params);
+        [NotNull]
+        Task<OperationResult<IEnumerable<string>>> GetFiltersAsync(TimeSpan? timeout = null);
+        
+        [NotNull]
+        Task<OperationResult<byte[]>> FiltrateImageAsync([NotNull] FiltrateImageModel requestModel);
     }
 }

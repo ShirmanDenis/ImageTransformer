@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
+using ImageTransform.Client.Models;
 using Newtonsoft.Json;
 using Vostok.Logging.Abstractions;
 
@@ -24,21 +24,27 @@ namespace ImageTransform.Client
             _log = log;
         }
 
-        public async Task<OperationResult<IEnumerable<string>>> GetRegisteredFilters(TimeSpan? timeout = null)
+        public async Task<OperationResult<IEnumerable<string>>> GetFiltersAsync(TimeSpan? timeout = null)
         {
             var response = await _httpClient
                 .GetAsync(ApiUris.GetRegisteredFilters, timeout.HasValue ? TimeOut(timeout.Value) : CancellationToken.None);
             return await PrepareResponse<IEnumerable<string>>(response);
         }
 
-        public async Task<OperationResult<byte[]>> FiltrateImage(byte[] imageBytes, string filter, Rectangle rect, params object[] @params)
+        public async Task<OperationResult<byte[]>> FiltrateImageAsync(FiltrateImageModel requestModel)
         {
-            var content = new ByteArrayContent(imageBytes);
-            content.Headers.ContentLength = imageBytes.Length;
+            if (string.IsNullOrEmpty(requestModel.FilterName))
+                throw new ArgumentNullException(nameof(requestModel.FilterName), "Filter name should not be null or empty.");
+            if (requestModel.ImgData == null || requestModel.ImgData.Length == 0)
+                throw new ArgumentNullException(nameof(requestModel.ImgData), "Image data should not be null.");
+
+            var content = new ByteArrayContent(requestModel.ImgData);
+            content.Headers.ContentLength = requestModel.ImgData.Length;
             content.Headers.ContentType = MediaTypeHeaderValue.Parse("octet/stream");
-            var response = await _httpClient.PostAsync(ApiUris.ProcessImage(filter, rect), content);
+            var response = await _httpClient.PostAsync(ApiUris.ProcessImage(requestModel.FilterName, requestModel.Area), content);
             var binary = await response.Content.ReadAsByteArrayAsync()
                 .ConfigureAwait(false);
+            
             return OperationResult<byte[]>.CreateOk(binary);
         }
 

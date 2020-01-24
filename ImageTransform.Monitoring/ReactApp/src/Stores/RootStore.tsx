@@ -22,7 +22,16 @@ export class RootStore{
         this.Params = params;
     }
 
+    // todo:
+    // catch exceptions
     public async getFilters() {
         return (await apiInstance.getFilters()).data;
+    }
+
+    // todo:
+    // catch exceptions
+    // replace json with interface
+    public async filtrate(json: string){
+        return (await apiInstance.filtrate(json)).data;
     }
 }

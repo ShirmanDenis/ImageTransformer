@@ -51,7 +51,8 @@ export class App extends Component<IRootProvider, IAppState> {
   onButtonCLick() {
     const json = JSON.stringify({
       FilterName: this.props.Root.FilterName,
-      ImgData: btoa(this.props.Root.FileData.toString())
+      ImgData: btoa(this.props.Root.FileData.toString()),
+      Area: "0, 0, 100, 100"
     });
     apiInstance
       .filtrate(json)
