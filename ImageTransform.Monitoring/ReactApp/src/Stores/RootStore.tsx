@@ -1,3 +1,4 @@
+import { apiInstance } from "../api";
 
 export class RootStore{
     constructor(){
@@ -19,5 +20,9 @@ export class RootStore{
 
     public setParams(params: any){
         this.Params = params;
+    }
+
+    public async getFilters() {
+        return (await apiInstance.getFilters()).data;
     }
 }

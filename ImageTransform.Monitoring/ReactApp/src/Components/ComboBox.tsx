@@ -9,10 +9,14 @@ interface IComboBoxProps {
     onClick?: any;
 }
 
-export class ComboBox extends Component<IComboBoxProps, any> {
+interface IComboBoxState {
+    currentElement: any;
+}
+
+export class ComboBox extends Component<IComboBoxProps, IComboBoxState> {
     constructor(props: Readonly<IComboBoxProps>) {
         super(props)
-        this.state = {currentElement: null}
+        this.state = {currentElement: props.title}
         this.onElemClick = this.onElemClick.bind(this);
     }
     componentWillMount(){
@@ -20,9 +24,11 @@ export class ComboBox extends Component<IComboBoxProps, any> {
     }
     onElemClick(c: Component<IComboBoxProps, any>, e: React.MouseEvent<HTMLAnchorElement, MouseEvent>){
         const content = e.currentTarget.innerHTML;
+        // todo: remove logic from combobox
         this.props.root.setFilterName(content);
         c.setState({currentElement: content});
     }
+    
     render() {
         return (
             <div className="dropdown">
