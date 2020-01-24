@@ -1,3 +1,3 @@
-[![CircleCI](https://circleci.com/gh/ShirmanDenis/ImageTransformer.svg?style=svg)](https://circleci.com/gh/ShirmanDenis/ImageTransformer)
+[![build](https://github.com/ShirmanDenis/ImageTransformer/workflows/build%20net%20core/badge.svg)](https://github.com/ShirmanDenis/ImageTransformer/actions)
 # ImageTransformer
 
