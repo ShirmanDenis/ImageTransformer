@@ -1,4 +1,4 @@
-name: net_core
+name: build net core
 
 on: [push]
 
