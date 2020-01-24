@@ -33,11 +33,6 @@
     <ProjectReference Include="..\ImageTransform.Api\ImageTransform.Api.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="System.Drawing">
-      <HintPath>System.Drawing</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
     <None Update="Resources\AlphaImg.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

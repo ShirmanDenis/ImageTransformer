@@ -10,10 +10,4 @@
     <PackageReference Include="Vostok.Logging.Abstractions" Version="1.0.1" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="Microsoft.AspNetCore.NodeServices">
-      <HintPath>..\..\..\program files\dotnet\sdk\NuGetFallbackFolder\microsoft.aspnetcore.nodeservices\2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.NodeServices.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
 </Project>
