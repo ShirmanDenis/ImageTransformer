@@ -52,12 +52,26 @@ export class App extends Component<IRootProvider, IAppState> {
     const json = JSON.stringify({
       FilterName: this.props.Root.FilterName,
       ImgData: btoa(this.props.Root.FileData.toString()),
-      Area: "0, 0, 100, 100"
+      Area: {
+        X: 0,
+        Y: 0,
+        Width: 100,
+        Height: 100
+      },
+      Params: [
+        {
+          Field: "some_val"
+        }
+      ]
     });
-    apiInstance
+    this.props.Root
       .filtrate(json)
       .then(response => {
-        const data = response.data;
+        if (!response.isSuccessful){
+          console.log(response.errorMsg);
+          return;
+        }
+        const imgData = response.result
         const workSpace = document.getElementById(
           "filtered_img"
         ) as HTMLElement;
@@ -66,7 +80,7 @@ export class App extends Component<IRootProvider, IAppState> {
           workSpace.removeChild(firstChild);
         }
         const img = document.createElement("img") as HTMLImageElement;
-        img.src = `data:image/png;base64, ${data}`;
+        img.src = `data:image/png;base64, ${imgData}`;
         workSpace.appendChild(img);
       })
       .catch(error => {

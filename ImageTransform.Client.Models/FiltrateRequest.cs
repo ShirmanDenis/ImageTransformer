@@ -2,7 +2,7 @@
 
 namespace ImageTransform.Client.Models
 {
-    public class FiltrateImageModel
+    public class FiltrateRequest
     {
         public string FilterName { get; set; }
 

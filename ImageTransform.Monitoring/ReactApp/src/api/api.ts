@@ -8,7 +8,7 @@ export class Api {
     }
 
     filtrate(json: string){
-        return Axios.post("api/filtrate", json, {
+        return Axios.post<IApiResult<string>>("api/filtrate", json, {
             headers: {
               'Content-Type': 'application/json; charset=utf-8'
             }

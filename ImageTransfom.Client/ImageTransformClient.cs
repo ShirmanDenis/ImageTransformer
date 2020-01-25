@@ -31,7 +31,7 @@ namespace ImageTransform.Client
             return await PrepareResponse<IEnumerable<string>>(response);
         }
 
-        public async Task<OperationResult<byte[]>> FiltrateImageAsync(FiltrateImageModel requestModel)
+        public async Task<OperationResult<byte[]>> FiltrateImageAsync(FiltrateRequest requestModel)
         {
             if (string.IsNullOrEmpty(requestModel.FilterName))
                 throw new ArgumentNullException(nameof(requestModel.FilterName), "Filter name should not be null or empty.");

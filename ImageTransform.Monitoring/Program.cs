@@ -12,11 +12,6 @@ namespace ImageTransform.Monitoring
     {
         public static void Main(string[] args)
         {
-            var model = new FiltrateImageModel()
-            {
-                Area = new Rectangle(1, 2, 100, 600)
-            };
-            var json = JsonConvert.SerializeObject(model, Formatting.Indented);
 
             CreateWebHostBuilder(args).Build().Run();
         }

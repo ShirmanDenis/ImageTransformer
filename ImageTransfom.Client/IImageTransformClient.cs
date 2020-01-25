@@ -12,6 +12,6 @@ namespace ImageTransform.Client
         Task<OperationResult<IEnumerable<string>>> GetFiltersAsync(TimeSpan? timeout = null);
         
         [NotNull]
-        Task<OperationResult<byte[]>> FiltrateImageAsync([NotNull] FiltrateImageModel requestModel);
+        Task<OperationResult<byte[]>> FiltrateImageAsync([NotNull] FiltrateRequest requestModel);
     }
 }
