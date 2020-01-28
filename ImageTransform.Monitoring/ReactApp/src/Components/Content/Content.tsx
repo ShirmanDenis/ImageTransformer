@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { ComboBox } from "../ComboBox";
-import { FileLoader } from "../FileLoader";
+import { FileLoader } from "../FileLoader/FileLoader";
 import { RootStore } from "../../Stores/RootStore";
 
 export interface IContentProps{
@@ -32,17 +32,36 @@ export class Content extends Component<IContentProps, IContentState> {
 	render() {
 		return (
 			<div>
-				<ComboBox
-					root={this.props.root}
-					elements={[...this.state.filters]}
-				/>
-				<FileLoader
-					root={this.props.root}
-					onLoaded={this.onImageChoosen}
-				/>
-				<div id="loaded_img" className="block"></div>
-				<button onClick={this.onButtonCLick}>Обработка</button>
-				<div id="filtered_img" className="block"></div>
+				<table>
+					<tr>
+						<td>
+							Фильтр:
+						</td>
+						<td>
+							<FileLoader
+								root={this.props.root}
+								onLoaded={this.onImageChoosen}
+							/>
+						</td>
+						<td>
+							<button onClick={this.onButtonCLick}>Применить фильтр</button>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<ComboBox
+								root={this.props.root}
+								elements={[...this.state.filters]}
+							/>
+						</td>
+						<td>
+							<div id="loaded_img" className="block"></div>
+						</td>
+						<td>
+							<div id="filtered_img" className="block"></div>
+						</td>
+					</tr>
+				</table>
 			</div>
 		);
 	}

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { RootStore } from '../Stores/RootStore';
+import "./FileLoader.css"
+import { RootStore } from '../../Stores/RootStore';
 
 interface IFileLoaderProps {
     root: RootStore;
@@ -28,10 +29,10 @@ export class FileLoader extends Component<IFileLoaderProps, any>{
 
     render(){
         return (
-            <div>
+            <div className="block">
                 <form>
                     <div className="form-group">
-                        <label htmlFor="exampleFormControlFile1">Выберите изображение</label>
+                        {/* <label htmlFor="exampleFormControlFile1">Выберите изображение</label> */}
                         <input 
                             type="file" 
                             className="form-control-file" 

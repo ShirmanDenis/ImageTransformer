@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Threading;
+using System.IO;
 using System.Threading.Tasks;
 using ImageTransform.Client.Models;
+using JetBrains.Annotations;
 using Newtonsoft.Json;
+using Vostok.Clusterclient.Core;
+using Vostok.Clusterclient.Core.Model;
 using Vostok.Logging.Abstractions;
 
 namespace ImageTransform.Client
@@ -14,21 +15,22 @@ namespace ImageTransform.Client
     {
         private readonly ILog _log;
         private readonly TimeSpan _defaultTimeOut = TimeSpan.FromSeconds(10);
-        private readonly HttpClient _httpClient = new HttpClient();
+        private readonly IClusterClient _clusterClient;
 
-        public ImageTransformClient(Uri uri, ILog log)
+        public ImageTransformClient(ClusterClientSetup setup, ILog log)
         {
-            _httpClient.BaseAddress = uri;
-            _httpClient.Timeout = _defaultTimeOut;
-            _httpClient.DefaultRequestHeaders.Add("Connection", "keep-alive");
+            _clusterClient = new ClusterClient(log, setup);
             _log = log;
         }
 
         public async Task<OperationResult<IEnumerable<string>>> GetFiltersAsync(TimeSpan? timeout = null)
         {
-            var response = await _httpClient
-                .GetAsync(ApiUris.GetRegisteredFilters, timeout.HasValue ? TimeOut(timeout.Value) : CancellationToken.None);
-            return await PrepareResponse<IEnumerable<string>>(response);
+            var request = Request.Get(ApiUris.GetRegisteredFilters);
+
+            var clusterResult = await _clusterClient.SendAsync(request, timeout ?? _defaultTimeOut)
+                .ConfigureAwait(false);
+
+            return await PrepareResponse<IEnumerable<string>>(clusterResult);
         }
 
         public async Task<OperationResult<byte[]>> FiltrateImageAsync(FiltrateRequest requestModel)
@@ -38,26 +40,41 @@ namespace ImageTransform.Client
             if (requestModel.ImgData == null || requestModel.ImgData.Length == 0)
                 throw new ArgumentNullException(nameof(requestModel.ImgData), "Image data should not be null.");
 
-            var content = new ByteArrayContent(requestModel.ImgData);
-            content.Headers.ContentLength = requestModel.ImgData.Length;
-            content.Headers.ContentType = MediaTypeHeaderValue.Parse("octet/stream");
-            var response = await _httpClient.PostAsync(ApiUris.ProcessImage(requestModel.FilterName, requestModel.Area), content);
-            var binary = await response.Content.ReadAsByteArrayAsync()
+            var request = Request.Post(ApiUris.ProcessImage(requestModel.FilterName, requestModel.Area))
+                .WithContent(requestModel.ImgData)
+                .WithContentTypeHeader("octet/stream");
+
+            var clusterResult = await _clusterClient.SendAsync(request)
                 .ConfigureAwait(false);
-            
-            return OperationResult<byte[]>.CreateOk(binary);
+
+            return await PrepareResponse<byte[]>(clusterResult);
         }
 
-        private async Task<OperationResult<T>> PrepareResponse<T>(HttpResponseMessage response)
+        [ItemCanBeNull]
+        private async Task<OperationResult<T>> PrepareResponse<T>(ClusterResult clusterResult)
         {
-            if (!response.IsSuccessStatusCode)
-                return OperationResult<T>.CreateFailed($"Failed with code {response.StatusCode}, reason is {response.ReasonPhrase}");
+            if (clusterResult.Status != ClusterResultStatus.Success)
+                return OperationResult<T>.CreateFailed($"Failed with code {clusterResult.Response.Code}, reason is {clusterResult.Status.ToString()}");
             try
             {
-                var json = await response.Content.ReadAsStringAsync()
-                    .ConfigureAwait(false);
-                return !TryDeserialize<T>(json, out var model, out var error) ? 
-                    OperationResult<T>.CreateFailed(error) : 
+                var response = clusterResult.Response;
+                if (!response.HasContent)
+                    return OperationResult<T>.CreateOk(default);
+                string json;
+                if (response.HasStream)
+                {
+                    using (var streamReader = new StreamReader(response.Stream))
+                    {
+                        json = await streamReader.ReadToEndAsync()
+                            .ConfigureAwait(false);
+                    }
+                    
+                }
+                else
+                    json = response.Content.ToString();
+
+                return !TryDeserialize<T>(json, out var model, out var error) ?
+                    OperationResult<T>.CreateFailed(error) :
                     OperationResult<T>.CreateOk(model);
             }
             catch (Exception e)
@@ -98,12 +115,6 @@ namespace ImageTransform.Client
                 _log.Error(errorMsg);
                 return false;
             }
-        }
-
-        private static CancellationToken TimeOut(TimeSpan timeout)
-        {
-            var cts = new CancellationTokenSource(timeout);
-            return cts.Token;
         }
     }
 }
