@@ -37,7 +37,9 @@ namespace ImageTransform.Monitoring.Controllers
             var operationResult = await _imageTransformClient
                 .FiltrateImageAsync(filtrateRequest.ToFiltrateRequest())
                 .ConfigureAwait(false);
-            return OperationResult<string>.CreateOk(Convert.ToBase64String(operationResult.Result));
+            return operationResult.IsSuccessful
+                ? OperationResult<string>.CreateOk(Convert.ToBase64String(operationResult.Result))
+                : OperationResult<string>.CreateFailed(operationResult.ErrorMsg);
         }
     }
 }

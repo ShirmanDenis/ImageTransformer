@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 using ImageTransform.Client.Models;
 using JetBrains.Annotations;
@@ -46,12 +47,11 @@ namespace ImageTransform.Client
 
             var clusterResult = await _clusterClient.SendAsync(request)
                 .ConfigureAwait(false);
-
             return await PrepareResponse<byte[]>(clusterResult);
         }
 
         [ItemCanBeNull]
-        private async Task<OperationResult<T>> PrepareResponse<T>(ClusterResult clusterResult)
+        private async Task<OperationResult<T>> PrepareResponse<T>(ClusterResult clusterResult) where T : class
         {
             if (clusterResult.Status != ClusterResultStatus.Success)
                 return OperationResult<T>.CreateFailed($"Failed with code {clusterResult.Response.Code}, reason is {clusterResult.Status.ToString()}");
@@ -60,43 +60,27 @@ namespace ImageTransform.Client
                 var response = clusterResult.Response;
                 if (!response.HasContent)
                     return OperationResult<T>.CreateOk(default);
-                string json;
+                string content;
                 if (response.HasStream)
                 {
                     using (var streamReader = new StreamReader(response.Stream))
-                    {
-                        json = await streamReader.ReadToEndAsync()
+                        content = await streamReader.ReadToEndAsync()
                             .ConfigureAwait(false);
-                    }
-                    
                 }
+                else if (typeof(T) == typeof(byte[]))
+                    return OperationResult<T>.CreateOk(response.Content.ToArray() as T);
                 else
-                    json = response.Content.ToString();
+                    content = response.Content.ToString();
 
-                return !TryDeserialize<T>(json, out var model, out var error) ?
+                if (response.Code == ResponseCode.BadRequest)
+                    return OperationResult<T>.CreateFailed(content);
+                return !TryDeserialize<T>(content, out var model, out var error) ?
                     OperationResult<T>.CreateFailed(error) :
                     OperationResult<T>.CreateOk(model);
             }
             catch (Exception e)
             {
                 return OperationResult<T>.CreateFailed($"Error in reading response body: {e.Message}");
-            }
-        }
-
-        private bool TrySerialize<T>(T model, out string json, out string errorMsg)
-        {
-            errorMsg = string.Empty;
-            json = string.Empty;
-            try
-            {
-                json = JsonConvert.SerializeObject(model);
-                return true;
-            }
-            catch (Exception e)
-            {
-                errorMsg = $"Serialization error: {e.Message}";
-                _log.Error(errorMsg);
-                return false;
             }
         }
 
