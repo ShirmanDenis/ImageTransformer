@@ -17,7 +17,7 @@
   <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="5.10.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="3.1.1" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.4.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
     <PackageReference Include="NUnit" Version="3.12.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.16.1">
       <PrivateAssets>all</PrivateAssets>
@@ -26,7 +26,7 @@
     <PackageReference Include="System.Diagnostics.DiagnosticSource" Version="4.7.0" />
     <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
-    <PackageReference Include="Vostok.Logging.Abstractions" Version="1.0.7" />
+    <PackageReference Include="Vostok.Logging.Abstractions" Version="1.0.8" />
     <PackageReference Include="Vostok.Logging.Console" Version="1.0.2" />
   </ItemGroup>
   <ItemGroup>
